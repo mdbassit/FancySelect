@@ -36,11 +36,19 @@ select::-ms-expand {
   display: none;
 }
 
+select:not(.fsb-ignore)[disabled] {
+  color: rgba(0, 0, 0, .3);
+  cursor: not-allowed;
+}
+
 .fsb-select {
   display: inline-block;
   position: relative;
 }
 
+select[disabled] + .fsb-select {
+  cursor: not-allowed;
+}
 
 .fsb-select,
 select:not(.fsb-ignore) {
@@ -83,7 +91,14 @@ select:not(.fsb-ignore) {
   cursor: pointer;
 }
 
-.fsb-select > button:after {
+select[disabled] + .fsb-select > button {
+  opacity: .4;
+  outline: none;
+  pointer-events: none;
+}
+
+.fsb-select > button:after,
+select[disabled] + .fsb-select > button[aria-expanded="true"]:after {
   content: '';
   display: block;
   position: absolute;
@@ -107,7 +122,8 @@ select:not(.fsb-ignore) {
   transform: translateY(-35%) rotateZ(225deg);
 }
 
-.fsb-select > ul {
+.fsb-select > ul,
+select[disabled] + .fsb-select > button + ul {
   display: block;
   visibility: hidden;
   position: absolute;
