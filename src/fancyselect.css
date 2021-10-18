@@ -1,0 +1,159 @@
+:root {
+  --fsb-border: 1px solid #ccc;
+  --fsb-radius: 5px;
+  --fsb-color: inherit;
+  --fsb-background: #fff;
+  --fsb-font-size: 1em;
+  --fsb-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+  --fsb-padding: 8px;
+  --fsb-arrow-size: 6px;
+  --fsb-arrow-padding: var(--fsb-padding);
+  --fsb-arrow-color: currentColor;
+  --fsb-list-height: 300px;
+  --fsb-list-border: var(--fsb-border);
+  --fsb-list-radius: 3px;
+  --fsb-list-color: var(--fsb-color);
+  --fsb-list-background: var(--fsb-background);
+  --fsb-hover-color: var(--fsb-color);
+  --fsb-hover-background: #ddd;
+}
+
+select:not(.fsb-ignore) {
+  display: inline-block;
+  margin: 0;
+  padding: 8px 22px 8px 8px;
+  padding: var(--fsb-padding);
+  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size));
+  font-family: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+.fsb-select {
+  display: inline-block;
+  position: relative;
+}
+
+
+.fsb-select,
+select:not(.fsb-ignore) {
+  border: 1px solid #ccc;
+  border: var(--fsb-border);
+  border-radius: 5px;
+  border-radius: var(--fsb-radius);
+  color: inherit;
+  color: var(--fsb-color);
+  background-color: #fff;
+  background-color: var(--fsb-background);
+  font-size: 1em;
+  font-size: var(--fsb-font-size);
+  box-shadow: none;
+  box-shadow: var(--fsb-shadow);
+}
+
+.fsb-select > span {
+  display: none;
+}
+
+.fsb-select > button {
+  display: inline-block !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 8px 22px 8px 8px !important;
+  padding: var(--fsb-padding) !important;
+  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size)) !important;
+  border: 0 !important;
+  border-radius: inherit !important;
+  color: inherit !important;
+  background-color: inherit !important;
+  font-size: 1em !important;
+  font-family: inherit !important;
+  text-align: inherit !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.fsb-select > button:after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 6px;
+  width: var(--fsb-arrow-size);
+  height: 6px;
+  height: var(--fsb-arrow-size);
+  right: 8px;
+  right: var(--fsb-arrow-padding);
+  top: 50%;
+  transform: translateY(-65%) rotateZ(45deg);
+  border: solid currentColor;
+  border: solid var(--fsb-arrow-color);
+  border-width: 0 1.5px 1.5px 0;
+  box-sizing: border-box;
+  transition: transform .3s ease-in-out;
+  pointer-events: none;
+}
+
+.fsb-select > button[aria-expanded="true"]:after {
+  transform: translateY(-35%) rotateZ(225deg);
+}
+
+.fsb-select > ul {
+  display: block;
+  visibility: hidden;
+  position: absolute;
+  width: 100%;
+  height: var(--fsb-list-height);
+  margin: 0;
+  left: 0;
+  top: 100%;
+  padding: 0;
+  border: inherit;
+  border: var(--fsb-list-border);
+  border-radius: inherit;
+  border-radius: var(--fsb-list-radius);
+  color: inherit;
+  color: var(--fsb-list-color);
+  background-color: inherit;
+  background-color: var(--fsb-list-background);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+  box-sizing: border-box;
+  list-style-type: none;
+  opacity: 0;
+  transition: opacity .2s ease-in-out;
+  overflow: auto;
+}
+
+.fsb-select.fsb-top > ul {
+  top: auto;
+  bottom: 100%;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, .2);
+}
+
+.fsb-select > button[aria-expanded="true"] + ul {
+  visibility: visible;
+  opacity: 1;
+}
+
+.fsb-select > ul li {
+  padding: var(--fsb-padding);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.fsb-select > ul li:hover,
+.fsb-select > ul li[aria-selected="true"] {
+  color: var(--fsb-hover-color);
+  background-color: var(--fsb-hover-background);
+}
