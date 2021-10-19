@@ -1,4 +1,12 @@
-document.querySelector('.fsb-select button').addEventListener('click', event => {
-  const expended = event.target.getAttribute('aria-expanded');
-  event.target.setAttribute('aria-expanded', `${ (expended === "true") ? "false" : true }`);
+document.querySelectorAll('.fsb-select button').forEach(button => {
+  button.addEventListener('click', event => {
+    event.target.setAttribute('aria-expanded', 'true');
+    event.stopPropagation();
+  });
+});
+
+document.addEventListener('click', event => {
+  document.querySelectorAll('.fsb-select button').forEach(button => {
+    button.setAttribute('aria-expanded', 'false');
+  });
 });
