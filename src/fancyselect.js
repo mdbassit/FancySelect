@@ -7,6 +7,8 @@ document.querySelectorAll('.fsb-select button').forEach(button => {
   });
 
   for (const item of list.children) {
+    button.innerHTML = list.querySelector('[aria-selected="true"]').innerHTML;
+
     item.addEventListener('click', event => {
       list.querySelector('[aria-selected="true"]').setAttribute('aria-selected', 'false');
       item.setAttribute('aria-selected', 'true');
