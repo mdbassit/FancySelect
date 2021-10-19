@@ -26,6 +26,55 @@
     }
   }
 
+  /**
+   * Open a list box.
+   * @param {object} button The button to which the list box is attached.
+   */ 
+  function openListBox(button) {
+    const list = button.nextElementSibling;
+    let selectedItem = list.querySelector('[aria-selected="true"]');
+
+    if (!selectedItem) {
+      selectedItem = list.firstElementChild;
+    }
+
+    button.setAttribute('aria-expanded', 'true');
+    selectedItem.focus();
+  }
+
+  /**
+   * Close the active list box.
+   * @param {bolean} focusButton If true, set focus on the button to which the list box is attached.
+   */ 
+  function closeListBox(focusButton) {
+    const activeListBox = document.querySelector('.fsb-select > button[aria-expanded="true"]');
+    
+    if (activeListBox) {
+      activeListBox.setAttribute('aria-expanded', 'false');
+
+      if (focusButton) {
+        activeListBox.focus();
+      }
+    }
+  }
+
+  /**
+   * Set the selected item.
+   * @param {object} item The item to be selected.
+   */ 
+  function selectItem(item) {
+    const list = item.parentNode;
+    const button = list.previousElementSibling;
+    const selectedItem = list.querySelector('[aria-selected="true"]');
+
+    if (selectedItem) {
+      selectedItem.setAttribute('aria-selected', 'false');
+    }
+
+    item.setAttribute('aria-selected', 'true');
+    button.innerHTML = item.innerHTML;
+  }
+
   document.querySelectorAll('.fsb-select > button').forEach(button => {
     const list = button.nextElementSibling;
     const selectedItem = list.querySelector('[aria-selected="true"]');
@@ -40,28 +89,77 @@
   });  
 
   addListener(document, 'click', '.fsb-select > button', event => {
-    event.target.setAttribute('aria-expanded', 'true');
+    openListBox(event.target);
     event.stopImmediatePropagation();
   });
 
-  addListener(document, 'click', '.fsb-select > ul > li', event => {
-    const item = event.target;
-    const list = item.parentNode;
-    const button = list.previousElementSibling;
-    const selectedItem = list.querySelector('[aria-selected="true"]');
+  addListener(document, 'keydown', '.fsb-select > button', event => {
+    const button = event.target;
+    let preventDefault = false;
 
-    if (selectedItem) {
-      selectedItem.setAttribute('aria-selected', 'false');
+    switch (event.key) {
+      case 'ArrowUp':
+        openListBox(button);
+        preventDefault = true;
+        break;
+      case 'ArrowDown':
+        openListBox(button);
+        preventDefault = true;
+        break;
+      case 'Enter':
+      case ' ':
+        openListBox(button);
+        preventDefault = true;
+        break;
     }
 
-    event.target.setAttribute('aria-selected', 'true');
-    button.innerHTML = item.innerHTML;
+    if (preventDefault) {
+      event.preventDefault();
+    }
+  });
+
+  addListener(document, 'mouseover', '.fsb-select > ul > li', event => {
+    event.target.focus();
+  });
+
+  addListener(document, 'click', '.fsb-select > ul > li', event => {
+    selectItem(event.target);
+    closeListBox(true);
+  });
+
+  addListener(document, 'keydown', '.fsb-select > ul > li', event => {
+    const item = event.target;
+    let preventDefault = false;
+
+    switch (event.key) {
+      case 'ArrowUp':
+        if (item.previousElementSibling) {
+          item.previousElementSibling.focus();
+        }
+        preventDefault = true;
+        break;
+      case 'ArrowDown':
+        if (item.nextElementSibling) {
+          item.nextElementSibling.focus();
+        }
+        preventDefault = true;
+        break;
+      case 'Enter':
+      case ' ':
+        selectItem(item);
+        closeListBox(true);
+        preventDefault = true;
+        break;
+    }
+
+    if (preventDefault) {
+      event.preventDefault();
+    }
   });
 
   addListener(document, 'click', event => {
-    document.querySelectorAll('.fsb-select > button').forEach(button => {
-      button.setAttribute('aria-expanded', 'false');
-    });
+    closeListBox();
   });
+
 })(document)
   

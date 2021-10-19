@@ -168,8 +168,7 @@ select[disabled] + .fsb-select > button + ul {
   cursor: pointer;
 }
 
-.fsb-select > ul li:hover,
-.fsb-select > ul li[aria-selected="true"] {
+.fsb-select > ul li:focus {
   color: var(--fsb-hover-color);
   background-color: var(--fsb-hover-background);
 }
