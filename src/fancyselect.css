@@ -127,7 +127,7 @@ select[disabled] + .fsb-select > button + ul {
   display: block;
   visibility: hidden;
   position: absolute;
-  width: 100%;
+  min-width: 100%;
   height: var(--fsb-list-height);
   margin: 0;
   left: 0;
@@ -172,4 +172,11 @@ select[disabled] + .fsb-select > button + ul {
 .fsb-select > ul li[aria-selected="true"] {
   color: var(--fsb-hover-color);
   background-color: var(--fsb-hover-background);
+}
+
+.fsb-select > div {
+  height: 0;
+  padding-right: 14px;
+  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size) -  var(--fsb-padding));
+  box-sizing: border-box;
 }

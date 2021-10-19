@@ -1,5 +1,9 @@
 document.querySelectorAll('.fsb-select button').forEach(button => {
   const list = button.nextElementSibling;
+  const widthAdjuster = list.nextElementSibling;
+
+  // Used to force the select box to take the width of the longest item by default
+  widthAdjuster.innerHTML = `<div style="width: ${list.firstElementChild.offsetWidth}px;"></div>`;
 
   button.addEventListener('click', event => {
     event.target.setAttribute('aria-expanded', 'true');
