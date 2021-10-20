@@ -44,7 +44,7 @@
 
   /**
    * Close the active list box.
-   * @param {bolean} focusButton If true, set focus on the button to which the list box is attached.
+   * @param {boolean} focusButton If true, set focus on the button to which the list box is attached.
    */ 
   function closeListBox(focusButton) {
     const activeListBox = document.querySelector('.fsb-select > button[aria-expanded="true"]');
@@ -94,23 +94,17 @@
   });
 
   addListener(document, 'keydown', '.fsb-select > button', event => {
-    const button = event.target;
-    let preventDefault = false;
+    let preventDefault = true;
 
     switch (event.key) {
       case 'ArrowUp':
-        openListBox(button);
-        preventDefault = true;
-        break;
       case 'ArrowDown':
-        openListBox(button);
-        preventDefault = true;
-        break;
       case 'Enter':
       case ' ':
-        openListBox(button);
-        preventDefault = true;
+        openListBox(event.target);
         break;
+      default:
+        preventDefault = false;
     }
 
     if (preventDefault) {
@@ -118,7 +112,7 @@
     }
   });
 
-  addListener(document, 'mouseover', '.fsb-select > ul > li', event => {
+  addListener(document.documentElement, 'mousemove', '.fsb-select > ul > li', event => {
     event.target.focus();
   });
 
@@ -129,27 +123,38 @@
 
   addListener(document, 'keydown', '.fsb-select > ul > li', event => {
     const item = event.target;
-    let preventDefault = false;
+    let preventDefault = true;
 
     switch (event.key) {
       case 'ArrowUp':
         if (item.previousElementSibling) {
           item.previousElementSibling.focus();
         }
-        preventDefault = true;
         break;
       case 'ArrowDown':
         if (item.nextElementSibling) {
           item.nextElementSibling.focus();
         }
-        preventDefault = true;
+        break;
+      case 'Home':
+        item.parentNode.firstElementChild.focus();
+        break;
+      case 'End':
+        item.parentNode.lastElementChild.focus();
+        break;
+      case 'Tab':
+        selectItem(item);
+        closeListBox();
+        preventDefault = false;
         break;
       case 'Enter':
       case ' ':
         selectItem(item);
+      case 'Escape':
         closeListBox(true);
-        preventDefault = true;
         break;
+      default:
+        preventDefault = false;
     }
 
     if (preventDefault) {
