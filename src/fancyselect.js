@@ -2,6 +2,93 @@
 
   let searchString = '';
   let searchTimeout = null;
+  let counter = 0;
+
+  /**
+   * Init the custom select box elements.
+   */
+  function init() {
+
+    // Replace native select elements with custom select boxes
+    document.querySelectorAll('select:not(.fsb-ignore)').forEach(select => {
+
+      // Skip if the native select has already been processed
+      if (select.nextElementSibling && select.nextElementSibling.classList.contains('.fsb-select')) {
+        return;
+      }
+
+      const options = select.children;
+      const parentNode = select.parentNode;
+      const customSelect = document.createElement('span');
+      const label = document.createElement('span');
+      const button = document.createElement('button');
+      const list = document.createElement('span');
+      const widthAdjuster = document.createElement('span');
+      const index = counter++;
+
+      // Label for accessibility
+      label.id = `fsb_${index}_label`;
+      label.className = 'fsb-label';
+
+      // Popup button
+      button.id = `fsb_${index}_button`;
+      button.className = 'fsb-button';
+      button.textContent = '&nbsp;';
+      button.setAttribute('aria-haspopup', 'listbox');
+      button.setAttribute('aria-expanded', 'false');
+      button.setAttribute('aria-labelledby', `fsb_${index}_label fsb_${index}_button`);
+
+      // List box
+      list.className = 'fsb-list';
+      list.setAttribute('role', 'listbox');
+      list.setAttribute('tabindex', '-1');
+      list.setAttribute('aria-labelledby', `fsb_${index}_label`);
+
+      // List items
+      for (let i = 0, len = options.length; i < len; i++) {
+         const item = document.createElement('span');
+         const itemValue = options[i].text;
+         const selected = options[i].selected;
+
+         item.className = 'fsb-option';
+         item.textContent = itemValue;
+         item.setAttribute('role', 'option');
+         item.setAttribute('tabindex', '-1');
+         item.setAttribute('aria-selected', selected);
+         list.appendChild(item);
+
+         if (selected) {
+           button.textContent = itemValue;
+         }
+      }
+
+      // Custom select box container
+      customSelect.className = 'fsb-select';
+      customSelect.appendChild(label);
+      customSelect.appendChild(button);
+      customSelect.appendChild(list);
+      customSelect.appendChild(widthAdjuster);
+
+      // Hide the native select
+      select.style.display = 'none';
+
+      // Insert the custom select box after the native select
+      if (select.nextSibling) {
+        parentNode.insertBefore(customSelect, select.nextSibling);
+      } else {
+        parentNode.appendChild(customSelect);
+      }
+
+      // Force the select box to take the width of the longest item by default
+      if (list.firstElementChild) {
+        const span = document.createElement('span');
+
+        span.setAttribute('style', `width: ${list.firstElementChild.offsetWidth}px;`);
+        widthAdjuster.className = 'fsb-resize'
+        widthAdjuster.appendChild(span);
+      }
+    });
+  }
 
   /**
    * Shortcut for addEventListener with delegation support.
@@ -161,20 +248,7 @@
     if (item) {
       item.focus();
     }    
-  }
-
-  document.querySelectorAll('.fsb-button').forEach(button => {
-    const list = button.nextElementSibling;
-    const selectedItem = list.querySelector('[aria-selected="true"]');
-    const widthAdjuster = list.nextElementSibling;
-
-    // Used to force the select box to take the width of the longest item by default
-    widthAdjuster.innerHTML = `<span style="width: ${list.firstElementChild.offsetWidth}px;"></span>`;
-
-    if (selectedItem) {
-      button.innerHTML = selectedItem.innerHTML;
-    }
-  });  
+  } 
 
   addListener(document, 'click', '.fsb-button', event => {
     openListBox(event.target);
@@ -268,6 +342,8 @@
   addListener(document, 'click', event => {
     closeListBox();
   });
+
+  init();
 
 })(window, document)
   
