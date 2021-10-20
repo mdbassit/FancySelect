@@ -133,7 +133,10 @@
   function selectItem(item) {
     const list = item.parentNode;
     const button = list.previousElementSibling;
+    const itemIndex = [].indexOf.call(list.children, item);
     const selectedItem = list.querySelector('[aria-selected="true"]');
+    const originalSelect = list.parentNode.previousElementSibling;
+
 
     if (selectedItem) {
       selectedItem.setAttribute('aria-selected', 'false');
@@ -141,6 +144,11 @@
 
     item.setAttribute('aria-selected', 'true');
     button.innerHTML = item.innerHTML;
+
+    // Update the original select
+    originalSelect.selectedIndex = itemIndex;
+    originalSelect.dispatchEvent(new Event('input', { bubbles: true }));
+    originalSelect.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
   /**
@@ -254,6 +262,7 @@
 
   addListener(document, 'click', '.fsb-button', event => {
     openListBox(event.target);
+    event.preventDefault();
     event.stopImmediatePropagation();
   });
 
