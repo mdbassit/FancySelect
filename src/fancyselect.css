@@ -157,7 +157,7 @@ select[disabled] + .fsb-list {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, .2);
 }
 
-.fsb-button[aria-expanded="true"] + span {
+.fsb-button[aria-expanded="true"] + .fsb-list {
   visibility: visible;
   opacity: 1;
 }
