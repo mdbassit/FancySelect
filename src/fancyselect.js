@@ -91,32 +91,6 @@
   }
 
   /**
-   * Shortcut for addEventListener with delegation support.
-   * @param {object} context The context to which the listener is attached.
-   * @param {string} type Event type.
-   * @param {(string|function)} selector Event target if delegation is used, event handler if not.
-   * @param {function} [fn] Event handler if delegation is used.
-   */ 
-  function addListener(context, type, selector, fn) {
-    const matches = Element.prototype.matches || Element.prototype.msMatchesSelector;
-
-    // Delegate event to the target of the selector
-    if (typeof selector === 'string') {
-      context.addEventListener(type, event => {
-        if (matches.call(event.target, selector)) {
-          fn.call(event.target, event);
-        }
-      });
-
-    // If the selector is not a string then it's a function
-    // in which case we need regular event listener
-    } else {
-      fn = selector;
-      context.addEventListener(type, fn);
-    }
-  }
-
-  /**
    * Open a list box.
    * @param {object} button The button to which the list box is attached.
    */ 
@@ -170,50 +144,6 @@
   }
 
   /**
-   * Check if the the user is typing printable characters.
-   * @param {object} event A keydown event.
-   * @return {boolean} True if the key pressed is a printable character.
-   */ 
-  function isTyping(event) {
-    const { key, altKey, ctrlKey, metaKey } = event;
-
-    if (key.length === 1 && !altKey && !ctrlKey && !metaKey) {
-      if (searchTimeout) {
-        window.clearTimeout(searchTimeout);
-      }
-
-      searchTimeout = window.setTimeout(() => {
-        searchString = '';
-      }, 500);
-
-      searchString += key;
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * Check if a string is the same character repeated multiple times.
-   * @param {string} str The string to check.
-   * @return {boolean} True if the string the same character repeated multiple times (e.g "aaa").
-   */ 
-  function isRepeatedCharacter(str) {
-    const characters = str.split('');
-    return characters.every(char => char === characters[0]);
-  }
-
-  /**
-   * Filter an array of string.
-   * @param {array} items.
-   * @param {string} filter The filter string.
-   * @return {array} The array items that matches the filter.
-   */ 
-  function filterItems(items, filter) {
-    return items.filter(item => item.indexOf(filter.toLowerCase()) === 0);
-  }
-
-  /**
    * Get the next item that matches a string.
    * @param {object} list The active list box.
    * @param {string} search The search string.
@@ -248,7 +178,79 @@
     if (item) {
       item.focus();
     }    
-  } 
+  }
+
+  /**
+   * Filter an array of string.
+   * @param {array} items.
+   * @param {string} filter The filter string.
+   * @return {array} The array items that matches the filter.
+   */ 
+  function filterItems(items, filter) {
+    return items.filter(item => item.indexOf(filter.toLowerCase()) === 0);
+  }
+
+  /**
+   * Check if the the user is typing printable characters.
+   * @param {object} event A keydown event.
+   * @return {boolean} True if the key pressed is a printable character.
+   */ 
+  function isTyping(event) {
+    const { key, altKey, ctrlKey, metaKey } = event;
+
+    if (key.length === 1 && !altKey && !ctrlKey && !metaKey) {
+      if (searchTimeout) {
+        window.clearTimeout(searchTimeout);
+      }
+
+      searchTimeout = window.setTimeout(() => {
+        searchString = '';
+      }, 500);
+
+      searchString += key;
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if a string is the same character repeated multiple times.
+   * @param {string} str The string to check.
+   * @return {boolean} True if the string the same character repeated multiple times (e.g "aaa").
+   */ 
+  function isRepeatedCharacter(str) {
+    const characters = str.split('');
+    return characters.every(char => char === characters[0]);
+  }
+
+  /**
+   * Shortcut for addEventListener with delegation support.
+   * @param {object} context The context to which the listener is attached.
+   * @param {string} type Event type.
+   * @param {(string|function)} selector Event target if delegation is used, event handler if not.
+   * @param {function} [fn] Event handler if delegation is used.
+   */ 
+  function addListener(context, type, selector, fn) {
+    const matches = Element.prototype.matches || Element.prototype.msMatchesSelector;
+
+    // Delegate event to the target of the selector
+    if (typeof selector === 'string') {
+      context.addEventListener(type, event => {
+        if (matches.call(event.target, selector)) {
+          fn.call(event.target, event);
+        }
+      });
+
+    // If the selector is not a string then it's a function
+    // in which case we need regular event listener
+    } else {
+      fn = selector;
+      context.addEventListener(type, fn);
+    }
+  }
+
+   
 
   addListener(document, 'click', '.fsb-button', event => {
     openListBox(event.target);
