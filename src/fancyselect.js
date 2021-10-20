@@ -37,7 +37,7 @@
       label.className = 'fsb-label';
       label.textContent = getNativeSelectLabel(select, parentNode);
 
-      // Popup button
+      // List box button
       button.id = `fsb_${index}_button`;
       button.className = 'fsb-button';
       button.textContent = '&nbsp;';
@@ -207,9 +207,16 @@
       return list.children[items.indexOf(firstMatch)];
 
     // If the search string is the same character repeated multiple times
+    // we need to cycle through the items starting with that character
     } else if (isRepeatedCharacter(search)) {
+      // Get all the items matching the character
       const matches = filterItems(items, search[0]);
+
+      // The match we want depends on the length of the repeated string
+      // e.g: "aa" means the second item starting with "a"
       const matchIndex = (search.length - 1) % matches.length;
+
+      // Return the match
       const match = matches[matchIndex];
       return list.children[items.indexOf(match)];
     }
@@ -311,12 +318,14 @@
     }
   }
 
+  // On click on the list box button
   addListener(document, 'click', '.fsb-button', event => {
     openListBox(event.target);
     event.preventDefault();
     event.stopImmediatePropagation();
   });
 
+  // On key press on the list box button
   addListener(document, 'keydown', '.fsb-button', event => {
     const button = event.target;
     const list = button.nextElementSibling;
@@ -343,15 +352,21 @@
     }
   });
 
+  // When the mouse moves on an item, focus it.
+  // Use mousemove instead of mouseover to prevent accidental focus on the wrong item,
+  // namely when the list box is opened with a keyboard shortcut, and the mouse arrow
+  // just happens to be on an item.
   addListener(document.documentElement, 'mousemove', '.fsb-option', event => {
     event.target.focus();
   });
 
+  // On click on an item
   addListener(document, 'click', '.fsb-option', event => {
     selectItem(event.target);
     closeListBox(true);
   });
 
+  // On key press on an item
   addListener(document, 'keydown', '.fsb-option', event => {
     const item = event.target;
     const list = item.parentNode;
@@ -376,6 +391,7 @@
         break;
       case 'PageUp':
       case 'PageDown':
+        // Disable Page Up and Page Down keys
         break;
       case 'Tab':
         selectItem(item);
@@ -401,6 +417,7 @@
     }
   });
 
+  // On click outside the custom select box, close it
   addListener(document, 'click', event => {
     closeListBox();
   });
