@@ -1,4 +1,7 @@
-(function (document) {
+(function (window, document) {
+
+  let searchString = '';
+  let searchTimeout = null;
 
   /**
    * Shortcut for addEventListener with delegation support.
@@ -55,6 +58,10 @@
       if (focusButton) {
         activeListBox.focus();
       }
+
+      // Clear the search string in case someone is a ninja!!!
+      searchString = '';
+      searchTimeout = null;
     }
   }
 
@@ -73,6 +80,87 @@
 
     item.setAttribute('aria-selected', 'true');
     button.innerHTML = item.innerHTML;
+  }
+
+  /**
+   * Check if the the user is typing printable characters.
+   * @param {object} event A keydown event.
+   * @return {boolean} True if the key pressed is a printable character.
+   */ 
+  function isTyping(event) {
+    const { key, altKey, ctrlKey, metaKey } = event;
+
+    if (key.length === 1 && !altKey && !ctrlKey && !metaKey) {
+      if (searchTimeout) {
+        window.clearTimeout(searchTimeout);
+      }
+
+      searchTimeout = window.setTimeout(() => {
+        searchString = '';
+      }, 1000);
+
+      searchString += key;
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Check if a string is the same character repeated multiple times.
+   * @param {string} str The string to check.
+   * @return {boolean} True if the string the same character repeated multiple times (e.g "aaa").
+   */ 
+  function isRepeatedCharacter(str) {
+    const characters = str.split('');
+    return characters.every(char => char === characters[0]);
+  }
+
+  /**
+   * Filter an array of string.
+   * @param {array} items.
+   * @param {string} filter The filter string.
+   * @return {array} The array items that matches the filter.
+   */ 
+  function filterItems(items, filter) {
+    return items.filter(item => item.indexOf(filter.toLowerCase()) === 0);
+  }
+
+  /**
+   * Get the next item that matches a string.
+   * @param {object} list The active list box.
+   * @param {string} search The search string.
+   * @return {object} The item that matches the string.
+   */ 
+  function getMatchingItem(list, search) {
+    const items = [].map.call(list.children, item => item.textContent.trim().toLowerCase());
+    const firstMatch = filterItems(items, search)[0];
+
+    // If an exact match is found, return it
+    if (firstMatch) {
+      return list.children[items.indexOf(firstMatch)];
+
+    // If the search string is the same character repeated multiple times
+    } else if (isRepeatedCharacter(search)) {
+      const matches = filterItems(items, search[0]);
+      const matchIndex = (search.length - 1) % matches.length;
+      const match = matches[matchIndex];
+      return list.children[items.indexOf(match)];
+    }
+
+    return null;
+  }
+
+  /**
+   * Focus the next item that matches a string.
+   * @param {object} list The active list box.
+   */ 
+  function focusMatchingItem(list) {
+    const item = getMatchingItem(list, searchString);
+
+    if (item) {
+      item.focus();
+    }    
   }
 
   document.querySelectorAll('.fsb-select > button').forEach(button => {
@@ -94,6 +182,8 @@
   });
 
   addListener(document, 'keydown', '.fsb-select > button', event => {
+    const button = event.target;
+    const list = button.nextElementSibling;
     let preventDefault = true;
 
     switch (event.key) {
@@ -101,10 +191,15 @@
       case 'ArrowDown':
       case 'Enter':
       case ' ':
-        openListBox(event.target);
+        openListBox(button);
         break;
       default:
-        preventDefault = false;
+        if (isTyping(event)) {
+          openListBox(button);
+          focusMatchingItem(list);
+        } else {
+          preventDefault = false;
+        }
     }
 
     if (preventDefault) {
@@ -123,6 +218,7 @@
 
   addListener(document, 'keydown', '.fsb-select > ul > li', event => {
     const item = event.target;
+    const list = item.parentNode;
     let preventDefault = true;
 
     switch (event.key) {
@@ -137,10 +233,13 @@
         }
         break;
       case 'Home':
-        item.parentNode.firstElementChild.focus();
+        list.firstElementChild.focus();
         break;
       case 'End':
-        item.parentNode.lastElementChild.focus();
+        list.lastElementChild.focus();
+        break;
+      case 'PageUp':
+      case 'PageDown':
         break;
       case 'Tab':
         selectItem(item);
@@ -154,7 +253,11 @@
         closeListBox(true);
         break;
       default:
-        preventDefault = false;
+        if (isTyping(event)) {
+          focusMatchingItem(list);
+        } else {
+          preventDefault = false;
+        }
     }
 
     if (preventDefault) {
@@ -166,5 +269,5 @@
     closeListBox();
   });
 
-})(document)
+})(window, document)
   
