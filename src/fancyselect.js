@@ -11,7 +11,7 @@
   let counter = 0;
 
   /**
-   * Init the custom select box elements.
+   * Initialize the custom select box elements.
    */
   function init() {
 
@@ -299,7 +299,17 @@
     }
   }
 
-   
+  /**
+   * Call a function only when the DOM is ready.
+   * @param {function} fn The function to call.
+   */ 
+  function DOMReady(fn) {
+    if (document.readyState !== 'loading') {
+      fn();
+    } else {
+      document.addEventListener('DOMContentLoaded', fn);
+    }
+  }
 
   addListener(document, 'click', '.fsb-button', event => {
     openListBox(event.target);
@@ -395,7 +405,8 @@
     closeListBox();
   });
 
-  init();
+  // Initialize the custom select boxes when the DOM is ready
+  DOMReady(init);
 
-})(window, document)
+})(window, document);
   
