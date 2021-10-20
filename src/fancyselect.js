@@ -29,6 +29,7 @@
       // Label for accessibility
       label.id = `fsb_${index}_label`;
       label.className = 'fsb-label';
+      label.textContent = getNativeSelectLabel(select, parentNode);
 
       // Popup button
       button.id = `fsb_${index}_button`;
@@ -88,6 +89,40 @@
         widthAdjuster.appendChild(span);
       }
     });
+  }
+
+  /**
+   * Try to guess the native select element's label if any.
+   * @param {object} select The native select.
+   * @param {object} parent The parent node.
+   * @return {string} The native select's label or an empty string.
+   */ 
+  function getNativeSelectLabel(select, parent) {
+    const id = select.id;
+    let labelElement;
+
+    // If the select element is inside a label element
+    if (parent.nodeName === 'LABEL') {
+      labelElement = parent;
+
+    // Or if the select element has an ID, and there is a label element
+    // with an attribute "for" that points to that ID
+    } else if (id !== undefined) {
+      labelElement = document.querySelector(`label[for="${id}"]`);
+    }
+
+    // If a label element is found, return the first non empty child text node
+    if (labelElement) {
+      const textNodes = [].filter.call(labelElement.childNodes, n => n.nodeType === 3);
+      const texts = textNodes.map(n => n.textContent.replace(/\s+/g, ' ').trim());
+      const label = texts.filter(l => l !== '')[0];
+
+      if (label) {
+        return label;
+      }
+    }
+
+    return '';
   }
 
   /**
