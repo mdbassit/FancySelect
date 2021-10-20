@@ -5,6 +5,7 @@
   --fsb-background: #fff;
   --fsb-font-size: 1em;
   --fsb-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+  --fsb-outline: solid red;
   --fsb-padding: 8px;
   --fsb-arrow-size: 6px;
   --fsb-arrow-padding: var(--fsb-padding);
@@ -91,9 +92,17 @@ select:not(.fsb-ignore) {
   cursor: pointer;
 }
 
-select[disabled] + .fsb-select > button {
-  opacity: .4;
+.fsb-select > button:focus {
+  outline: var(--fsb-outline);
+}
+
+.fsb-select > button:focus:not(:focus-visible) {
   outline: none;
+}
+
+select[disabled] + .fsb-select > button {
+  outline: none;
+  opacity: .4;
   pointer-events: none;
 }
 
@@ -169,6 +178,7 @@ select[disabled] + .fsb-select > button + ul {
 }
 
 .fsb-select > ul li:focus {
+  outline: none;
   color: var(--fsb-hover-color);
   background-color: var(--fsb-hover-background);
 }
