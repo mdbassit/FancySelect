@@ -50,7 +50,7 @@
    * @param {boolean} focusButton If true, set focus on the button to which the list box is attached.
    */ 
   function closeListBox(focusButton) {
-    const activeListBox = document.querySelector('.fsb-select > button[aria-expanded="true"]');
+    const activeListBox = document.querySelector('.fsb-button[aria-expanded="true"]');
     
     if (activeListBox) {
       activeListBox.setAttribute('aria-expanded', 'false');
@@ -97,7 +97,7 @@
 
       searchTimeout = window.setTimeout(() => {
         searchString = '';
-      }, 1000);
+      }, 500);
 
       searchString += key;
       return true;
@@ -163,25 +163,25 @@
     }    
   }
 
-  document.querySelectorAll('.fsb-select > button').forEach(button => {
+  document.querySelectorAll('.fsb-button').forEach(button => {
     const list = button.nextElementSibling;
     const selectedItem = list.querySelector('[aria-selected="true"]');
     const widthAdjuster = list.nextElementSibling;
 
     // Used to force the select box to take the width of the longest item by default
-    widthAdjuster.innerHTML = `<div style="width: ${list.firstElementChild.offsetWidth}px;"></div>`;
+    widthAdjuster.innerHTML = `<span style="width: ${list.firstElementChild.offsetWidth}px;"></span>`;
 
     if (selectedItem) {
       button.innerHTML = selectedItem.innerHTML;
     }
   });  
 
-  addListener(document, 'click', '.fsb-select > button', event => {
+  addListener(document, 'click', '.fsb-button', event => {
     openListBox(event.target);
     event.stopImmediatePropagation();
   });
 
-  addListener(document, 'keydown', '.fsb-select > button', event => {
+  addListener(document, 'keydown', '.fsb-button', event => {
     const button = event.target;
     const list = button.nextElementSibling;
     let preventDefault = true;
@@ -207,16 +207,16 @@
     }
   });
 
-  addListener(document.documentElement, 'mousemove', '.fsb-select > ul > li', event => {
+  addListener(document.documentElement, 'mousemove', '.fsb-option', event => {
     event.target.focus();
   });
 
-  addListener(document, 'click', '.fsb-select > ul > li', event => {
+  addListener(document, 'click', '.fsb-option', event => {
     selectItem(event.target);
     closeListBox(true);
   });
 
-  addListener(document, 'keydown', '.fsb-select > ul > li', event => {
+  addListener(document, 'keydown', '.fsb-option', event => {
     const item = event.target;
     const list = item.parentNode;
     let preventDefault = true;

@@ -66,11 +66,13 @@ select:not(.fsb-ignore) {
   box-shadow: var(--fsb-shadow);
 }
 
-.fsb-select > span {
+.fsb-label {
   display: none;
 }
 
-.fsb-select > button {
+/* While it's common sense to avoid using !important as much as possible, it is used
+ * here to prevent inheriting style from other rules that may target buttons. */
+.fsb-button {
   display: inline-block !important;
   position: relative !important;
   width: 100% !important;
@@ -91,14 +93,14 @@ select:not(.fsb-ignore) {
   cursor: pointer;
 }
 
-select[disabled] + .fsb-select > button {
+select[disabled] + .fsb-button {
   outline: none;
   opacity: .4;
   pointer-events: none;
 }
 
-.fsb-select > button:after,
-select[disabled] + .fsb-select > button[aria-expanded="true"]:after {
+.fsb-button:after,
+select[disabled] + .fsb-button[aria-expanded="true"]:after {
   content: '';
   display: block;
   position: absolute;
@@ -118,12 +120,12 @@ select[disabled] + .fsb-select > button[aria-expanded="true"]:after {
   pointer-events: none;
 }
 
-.fsb-select > button[aria-expanded="true"]:after {
+.fsb-button[aria-expanded="true"]:after {
   transform: translateY(-35%) rotateZ(225deg);
 }
 
-.fsb-select > ul,
-select[disabled] + .fsb-select > button + ul {
+.fsb-list,
+select[disabled] + .fsb-list {
   display: block;
   visibility: hidden;
   position: absolute;
@@ -137,30 +139,31 @@ select[disabled] + .fsb-select > button + ul {
   border: var(--fsb-list-border);
   border-radius: inherit;
   border-radius: var(--fsb-list-radius);
+  box-sizing: border-box;
   color: inherit;
   color: var(--fsb-list-color);
   background-color: inherit;
   background-color: var(--fsb-list-background);
   box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
-  box-sizing: border-box;
   list-style-type: none;
   opacity: 0;
   transition: opacity .2s ease-in-out;
   overflow: auto;
 }
 
-.fsb-select.fsb-top > ul {
+.fsb-top .fsb-list {
   top: auto;
   bottom: 100%;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, .2);
 }
 
-.fsb-select > button[aria-expanded="true"] + ul {
+.fsb-button[aria-expanded="true"] + span {
   visibility: visible;
   opacity: 1;
 }
 
-.fsb-select > ul li {
+.fsb-option {
+  display: block;
   padding: var(--fsb-padding);
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -168,15 +171,20 @@ select[disabled] + .fsb-select > button + ul {
   cursor: pointer;
 }
 
-.fsb-select > ul li:focus {
+.fsb-option:focus {
   outline: none;
   color: var(--fsb-hover-color);
   background-color: var(--fsb-hover-background);
 }
 
-.fsb-select > div {
+.fsb-resize {
+  display: block;
   height: 0;
   padding-right: 14px;
   padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size) -  var(--fsb-padding));
   box-sizing: border-box;
+}
+
+.fsb-resize > * {
+  display: block;
 }
