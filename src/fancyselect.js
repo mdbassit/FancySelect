@@ -136,6 +136,7 @@
    * @param {object} button The button to which the list box is attached.
    */ 
   function openListBox(button) {
+    const rect = button.getBoundingClientRect();
     const list = button.nextElementSibling;
     let selectedItem = list.querySelector('[aria-selected="true"]');
 
@@ -143,8 +144,16 @@
       selectedItem = list.firstElementChild;
     }
 
+    // Open the list box and focus the selected item
     button.setAttribute('aria-expanded', 'true');
     selectedItem.focus();
+
+    // Position the list box on top of the button if there isn't enough space on the bottom
+    if (rect.y + rect.height + list.offsetHeight > document.documentElement.clientHeight) {
+      button.parentNode.className = 'fsb-select fsb-top';
+    } else {
+      button.parentNode.className = 'fsb-select';
+    }
   }
 
   /**
