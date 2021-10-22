@@ -41,6 +41,7 @@
       button.id = `fsb_${index}_button`;
       button.className = 'fsb-button';
       button.textContent = '&nbsp;';
+      button.setAttribute('aria-disabled', select.disabled);
       button.setAttribute('aria-haspopup', 'listbox');
       button.setAttribute('aria-expanded', 'false');
       button.setAttribute('aria-labelledby', `fsb_${index}_label fsb_${index}_button`);
