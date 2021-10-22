@@ -93,14 +93,13 @@ select:not(.fsb-ignore) {
   cursor: pointer;
 }
 
-select[disabled] + .fsb-button {
-  outline: none;
+select[disabled] + .fsb-select .fsb-button {
   opacity: .4;
   pointer-events: none;
 }
 
 .fsb-button:after,
-select[disabled] + .fsb-button[aria-expanded="true"]:after {
+select[disabled] + .fsb-select .fsb-button[aria-expanded="true"]:after {
   content: '';
   display: block;
   position: absolute;
@@ -125,7 +124,7 @@ select[disabled] + .fsb-button[aria-expanded="true"]:after {
 }
 
 .fsb-list,
-select[disabled] + .fsb-list {
+select[disabled] + .fsb-select .fsb-list {
   display: block;
   visibility: hidden;
   position: absolute;
