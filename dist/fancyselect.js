@@ -330,6 +330,7 @@
 
   // On click on the list box button
   addListener(document, 'click', '.fsb-button', function (event) {
+    closeListBox();
     openListBox(event.target);
     event.preventDefault();
     event.stopImmediatePropagation();
