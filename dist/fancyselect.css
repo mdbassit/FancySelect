@@ -133,6 +133,7 @@ select[disabled] + .fsb-select .fsb-list {
   margin: 0;
   left: 0;
   top: 100%;
+  z-index: 1000;
   padding: 0;
   border: inherit;
   border: var(--fsb-list-border);
@@ -144,7 +145,6 @@ select[disabled] + .fsb-select .fsb-list {
   background-color: inherit;
   background-color: var(--fsb-list-background);
   box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
-  list-style-type: none;
   opacity: 0;
   transition: opacity .2s ease-in-out;
   overflow: auto;
