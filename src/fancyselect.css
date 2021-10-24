@@ -66,6 +66,14 @@ select:not(.fsb-ignore) {
   box-shadow: var(--fsb-shadow);
 }
 
+.fsb-select svg {
+  width: 1em;
+  height: 1em;
+  margin-right: 8px;
+  margin-right: var(--fsb-padding);
+  fill: currentColor;
+}
+
 .fsb-label {
   display: none;
 }
@@ -73,7 +81,8 @@ select:not(.fsb-ignore) {
 /* While it's common sense to avoid using !important as much as possible, it is used
  * here to prevent inheriting style from other rules that may target buttons. */
 .fsb-button {
-  display: inline-block !important;
+  display: flex !important;
+  align-items: center;
   position: relative !important;
   width: 100% !important;
   height: 100% !important;
@@ -162,7 +171,8 @@ select[disabled] + .fsb-select .fsb-list {
 }
 
 .fsb-option {
-  display: block;
+  display: flex;
+  align-items: center;
   padding: var(--fsb-padding);
   white-space: nowrap;
   text-overflow: ellipsis;

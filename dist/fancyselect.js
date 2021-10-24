@@ -54,19 +54,20 @@
 
       // List items
       for (var i = 0, len = options.length; i < len; i++) {
+        var option = options[i];
         var item = document.createElement('span');
-        var itemValue = options[i].text;
-        var selected = options[i].selected;
+        var itemLabel = getItemLabel(option);
+        var selected = option.selected;
 
         item.className = 'fsb-option';
-        item.textContent = itemValue;
+        item.innerHTML = itemLabel;
         item.setAttribute('role', 'option');
         item.setAttribute('tabindex', '-1');
         item.setAttribute('aria-selected', selected);
         list.appendChild(item);
 
         if (selected) {
-          button.textContent = itemValue;
+          button.innerHTML = itemLabel;
         }
       }
 
@@ -130,6 +131,23 @@
     }
 
     return '';
+  }
+
+  /**
+   * Infer the list item's label from the native select option.
+   * @param {object} option The native select option.
+   * @return {string} The list item's label.
+   */
+  function getItemLabel(option) {
+    var text = option.text;
+    var icon = option.getAttribute('data-icon');
+    var label = text;
+
+    if (icon !== null) {
+      label = "<svg><use href=\"" + icon + "\"></use></svg> " + label;
+    }
+
+    return label;
   }
 
   /**

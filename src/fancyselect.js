@@ -54,20 +54,21 @@
 
       // List items
       for (let i = 0, len = options.length; i < len; i++) {
-         const item = document.createElement('span');
-         const itemValue = options[i].text;
-         const selected = options[i].selected;
+        const option = options[i];
+        const item = document.createElement('span');
+        const itemLabel = getItemLabel(option);
+        const selected = option.selected;
 
-         item.className = 'fsb-option';
-         item.textContent = itemValue;
-         item.setAttribute('role', 'option');
-         item.setAttribute('tabindex', '-1');
-         item.setAttribute('aria-selected', selected);
-         list.appendChild(item);
+        item.className = 'fsb-option';
+        item.innerHTML = itemLabel;
+        item.setAttribute('role', 'option');
+        item.setAttribute('tabindex', '-1');
+        item.setAttribute('aria-selected', selected);
+        list.appendChild(item);
 
-         if (selected) {
-           button.textContent = itemValue;
-         }
+        if (selected) {
+         button.innerHTML = itemLabel;
+        }
       }
 
       // Custom select box container
@@ -130,6 +131,23 @@
     }
 
     return '';
+  }
+
+  /**
+   * Infer the list item's label from the native select option.
+   * @param {object} option The native select option.
+   * @return {string} The list item's label.
+   */ 
+  function getItemLabel(option) {
+    const text = option.text;
+    const icon = option.getAttribute('data-icon');
+    let label = text;
+
+    if (icon !== null) {
+      label = `<svg><use href="${icon}"></use></svg> ${label}`;
+    }
+
+    return label;
   }
 
   /**
