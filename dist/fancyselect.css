@@ -6,6 +6,7 @@
   --fsb-font-size: 1em;
   --fsb-shadow: 0 1px 1px rgba(0, 0, 0, .1);
   --fsb-padding: 8px;
+  --fsb-padding-right: var(--fsb-padding);
   --fsb-arrow-size: 6px;
   --fsb-arrow-padding: var(--fsb-padding);
   --fsb-arrow-color: currentColor;
@@ -191,7 +192,7 @@ select[disabled] + .fsb-select .fsb-list {
   display: block;
   height: 0;
   padding-right: 14px;
-  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size) - var(--fsb-padding));
+  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size) - var(--fsb-padding-right));
   box-sizing: border-box;
 }
 
