@@ -79,7 +79,7 @@ select:not(.fsb-ignore) {
   height: 100% !important;
   padding: 8px 22px 8px 8px !important;
   padding: var(--fsb-padding) !important;
-  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size)) !important;
+  padding-right: var(--fsb-arrow-size) !important;
   border: 0 !important;
   border-radius: inherit !important;
   color: inherit !important;
@@ -180,7 +180,7 @@ select[disabled] + .fsb-select .fsb-list {
   display: block;
   height: 0;
   padding-right: 14px;
-  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size) -  var(--fsb-padding));
+  padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size) - var(--fsb-padding));
   box-sizing: border-box;
 }
 
