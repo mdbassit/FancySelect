@@ -35,6 +35,18 @@ The native select elements will be replaced automatically.
 ### Customization
 
 
+## Building from source
+
+Install the development dependencies:
+```bash
+npm install
+```
+
+Run the build script:
+```bash
+npm run build
+```
+The built version will be in the `dist` directory in both minified and full copies.
 
 ## Credit
 
