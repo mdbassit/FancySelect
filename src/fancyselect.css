@@ -72,6 +72,7 @@ select:not(.fsb-ignore) {
   margin-right: 8px;
   margin-right: var(--fsb-padding);
   fill: currentColor;
+  pointer-events: none;
 }
 
 .fsb-label {
