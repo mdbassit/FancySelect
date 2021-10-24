@@ -1,4 +1,4 @@
-*Work in progress. Please do not clone yet!*
+**Work in progress. Please do not clone yet!**
 
 # fancySelect
 
