@@ -58,5 +58,5 @@ While this implementation may be different, most of the specifications were insp
 
 ## License
 
-Copyright (c) 2021 Momo Bassit.
+Copyright (c) 2021 Momo Bassit.  
 **fancySelect** is licensed under the [MIT license](https://github.com/mdbassit/fancySelect/blob/main/LICENSE).
