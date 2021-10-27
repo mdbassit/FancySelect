@@ -2,7 +2,7 @@
 
 # fancySelect
 
-A tiny drop-in replacement for native HTML select elements written in vanilla ES6.
+A tiny drop-in replacement for native HTML single select elements written in vanilla ES6.
 
 [**View demo**](https://mdbassit.github.io/fancySelect/demo.html)
 
@@ -13,6 +13,7 @@ A tiny drop-in replacement for native HTML select elements written in vanilla ES
 * Customizable
 * Fully accessible
 * Works on all modern browsers (no IE support)
+* No multi-select support (not accessible)
 
 ## Getting Started
 
@@ -33,6 +34,8 @@ Or include from a CDN:
 The native select elements will be replaced automatically.
 
 ### Customization
+
+### About multi-select
 
 
 ## Building from source
