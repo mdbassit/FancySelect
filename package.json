@@ -18,7 +18,7 @@
   },
   "scripts": {
     "build": "gulp build",
-    "start": "gulp"
+    "watch": "gulp"
   },
   "browserslist": "> 0.25%, not dead",
   "babel": {
