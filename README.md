@@ -11,6 +11,7 @@ A tiny drop-in replacement for native HTML single select elements written in van
 * Zero dependencies
 * Very easy to use
 * Customizable
+* Icon support
 * Fully accessible
 * Works on all modern browsers (no IE support)
 * No multi-select support (not accessible)
@@ -34,6 +35,8 @@ Or include from a CDN:
 The native select elements will be replaced automatically.
 
 ### Customization
+
+### Icons
 
 ### About multi-select
 
