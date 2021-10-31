@@ -27,7 +27,6 @@ select:not(.fsb-ignore) {
   padding-right: calc(var(--fsb-arrow-padding) * 2 + var(--fsb-arrow-size));
   font-family: inherit;
   line-height: inherit;
-  cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -101,7 +100,6 @@ select:not(.fsb-ignore) {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  cursor: pointer;
 }
 
 select[disabled] + .fsb-select .fsb-button {
@@ -179,7 +177,6 @@ select[disabled] + .fsb-select .fsb-list {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-  cursor: pointer;
 }
 
 .fsb-option:focus {
