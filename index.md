@@ -1,37 +1,70 @@
-## Welcome to GitHub Pages
+**Work in progress. Please do not clone yet!**
 
-You can use the [editor on GitHub](https://github.com/mdbassit/fancySelect/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+# fancySelect
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+<img src="https://raw.githubusercontent.com/mdbassit/fancySelect/gh-pages/images/examples.png" alt="fancySelect examples" width="544"/>
 
-### Markdown
+A tiny drop-in replacement for native HTML single select elements written in vanilla ES6.
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+[**View demo**](https://mdbassit.github.io/fancySelect/demo.html)
 
-```markdown
-Syntax highlighted code block
+## Features
 
-# Header 1
-## Header 2
-### Header 3
+* Zero dependencies
+* Very easy to use
+* Customizable
+* Icon support
+* Fully accessible
+* Works on all modern browsers (no IE support)
+* No multi-select support (not accessible)
 
-- Bulleted
-- List
+## Getting Started
 
-1. Numbered
-2. List
+### Basic usage
 
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Download the [latest version](https://github.com/mdbassit/fancySelect/releases/latest), and add the script and style to your page:
+```html
+<link rel="stylesheet" href="fancyselect.min.css"/>
+<script src="fancyselect.min.js"></script>
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Or include from a CDN:
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/fancySelect@latest/dist/fancyselect.min.css"/>
+<script src="https://cdn.jsdelivr.net/gh/mdbassit/fancySelect@latest/dist/fancyselect.min.js"></script>
+```
 
-### Jekyll Themes
+The native select elements will be replaced automatically.
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/mdbassit/fancySelect/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Customization
 
-### Support or Contact
+### Icons
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+### About multi-select
+
+
+## Building from source
+
+Install the development dependencies:
+```bash
+npm install
+```
+
+Run the build script:
+```bash
+npm run build
+```
+The built version will be in the `dist` directory in both minified and full copies.
+
+## Credit
+
+While this implementation may be different, most of the specifications were inspired by:
+
+* [Collapsible Dropdown Listbox Example | WAI-ARIA Authoring Practices 1.1](https://www.w3.org/TR/wai-aria-practices-1.1/examples/listbox/listbox-collapsible.html)
+* [&lt;select> your poison](https://www.24a11y.com/2019/select-your-poison/)
+* [&lt;select> your poison part 2: test all the things](https://www.24a11y.com/2019/select-your-poison-part-2/)
+
+## License
+
+Copyright (c) 2021 Momo Bassit.  
+**fancySelect** is licensed under the [MIT license](https://github.com/mdbassit/fancySelect/blob/main/LICENSE).
