@@ -403,11 +403,13 @@
 
     switch (event.key) {
       case 'ArrowUp':
+      case 'ArrowLeft':
         if (item.previousElementSibling) {
           item.previousElementSibling.focus();
         }
         break;
       case 'ArrowDown':
+      case 'ArrowRight':
         if (item.nextElementSibling) {
           item.nextElementSibling.focus();
         }
