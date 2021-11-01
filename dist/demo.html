@@ -7,53 +7,233 @@
     <link rel="stylesheet" type="text/css" href="fancyselect.min.css">
     <style type="text/css">
 
+    @import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap);
+
     body {
+      height: 140vh;
+      margin: 30px;
       color: #444;
       background-color: #eee;
-      font-family: sans-serif;
+      font-family: 'Lato', sans-serif;
       font-size: 16px;
+    }
+
+    h1 {
+      margin-bottom: 1.5em;
+    }
+
+    label {
+      display: block;
+      margin-bottom: .5em;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .example {
+      margin-bottom: 1.5em;
+    }
+
+    .full-width select,
+    .full-width .fsb-select {
+      width: 100%;
+    }
+
+    .custom-style {
+      --fsb-border: 0;
+      --fsb-radius: 2em;
+      --fsb-color: #fff;
+      --fsb-background: #2F86A6;
+      --fsb-padding: .75em 1.5em;
+      --fsb-arrow-padding: 1.5em;
+      --fsb-arrow-size: .5em;
+      --fsb-list-height: 200px;
+      --fsb-list-radius: .75em;
+      --fsb-list-background: #34BE82;
+      --fsb-hover-background: #2FDD92;
+    }
+
+    .icons {
+      --fsb-border: 2px solid #fc0;
+      --fsb-radius: 10px;
+      --fsb-padding: .75em;
+      --fsb-arrow-padding: 1em;
+      --fsb-hover-background: #fc0;
+      --fsb-list-height: 350px;
+    }
+
+    .auto-position {
+      position: absolute;
+      width: calc(100% - 60px);
+      max-width: 500px;
+      bottom: 30px;
     }
 
     </style>
   </head>
   <body>
     <div class="container">
-      <label for="myselect">My fancy select</label>
-      <select id="myselect">
-        <option data-icon="#icon-cog">Some option with a very long label will look like this</option>
-        <option>Neptunium</option>
-        <option>Plutonium</option>
-        <option>Americium</option>
-        <option>Curium</option>
-        <option selected>Berkelium</option>
-        <option>Californium</option>
-        <option>Einsteinium</option>
-        <option>Fermium</option>
-        <option>Mendelevium</option>
-        <option>Nobelium</option>
-        <option>Lawrencium</option>
-        <option>Rutherfordium</option>
-        <option>Dubnium</option>
-        <option>Seaborgium</option>
-        <option>Bohrium</option>
-        <option>Hassium</option>
-        <option>Meitnerium</option>
-        <option>Darmstadtium</option>
-        <option>Roentgenium</option>
-        <option>Copernicium</option>
-        <option>Nihonium</option>
-        <option>Flerovium</option>
-        <option>Moscovium</option>
-        <option>Livermorium</option>
-        <option>Tennessine</option>
-        <option>Oganesson</option>
-      </select>
+      <a href="https://github.com/mdbassit/fancySelect">View <b>fancySelect</b> on GitHub</a>
+      <h1>fancySelect examples</h1>
+      <div class="example">
+        <label for="default-style">Default style</label>
+        <select id="default-style">
+          <option>Neptunium</option>
+          <option>Plutonium</option>
+          <option>Americium</option>
+          <option>Curium</option>
+          <option>Berkelium</option>
+          <option>Californium</option>
+          <option>Einsteinium</option>
+          <option>Fermium</option>
+          <option>Mendelevium</option>
+          <option>Nobelium</option>
+          <option>Lawrencium</option>
+          <option>Rutherfordium</option>
+          <option>Dubnium</option>
+          <option>Seaborgium</option>
+          <option>Bohrium</option>
+          <option>Hassium</option>
+          <option>Meitnerium</option>
+          <option>Darmstadtium</option>
+          <option>Roentgenium</option>
+          <option>Copernicium</option>
+          <option>Nihonium</option>
+          <option>Flerovium</option>
+          <option>Moscovium</option>
+          <option>Livermorium</option>
+          <option>Tennessine</option>
+          <option>Oganesson</option>
+        </select>
+      </div>
+      <div class="example full-width">
+        <label for="full-width">Full width of parent</label>
+        <select id="full-width">
+          <option>Neptunium</option>
+          <option>Plutonium</option>
+          <option>Americium</option>
+          <option>Curium</option>
+          <option>Berkelium</option>
+          <option>Californium</option>
+          <option>Einsteinium</option>
+          <option>Fermium</option>
+          <option>Mendelevium</option>
+          <option>Nobelium</option>
+          <option>Lawrencium</option>
+          <option>Rutherfordium</option>
+          <option>Dubnium</option>
+          <option>Seaborgium</option>
+          <option>Bohrium</option>
+          <option>Hassium</option>
+          <option>Meitnerium</option>
+          <option>Darmstadtium</option>
+          <option>Roentgenium</option>
+          <option>Copernicium</option>
+          <option>Nihonium</option>
+          <option>Flerovium</option>
+          <option>Moscovium</option>
+          <option>Livermorium</option>
+          <option>Tennessine</option>
+          <option>Oganesson</option>
+        </select>
+      </div>
+      <div class="example full-width custom-style">
+        <label for="custom-style">Custom style</label>
+        <select id="custom-style">
+          <option>Neptunium</option>
+          <option>Plutonium</option>
+          <option>Americium</option>
+          <option>Curium</option>
+          <option>Berkelium</option>
+          <option>Californium</option>
+          <option>Einsteinium</option>
+          <option>Fermium</option>
+          <option>Mendelevium</option>
+          <option>Nobelium</option>
+          <option>Lawrencium</option>
+          <option>Rutherfordium</option>
+          <option>Dubnium</option>
+          <option>Seaborgium</option>
+          <option>Bohrium</option>
+          <option>Hassium</option>
+          <option>Meitnerium</option>
+          <option>Darmstadtium</option>
+          <option>Roentgenium</option>
+          <option>Copernicium</option>
+          <option>Nihonium</option>
+          <option>Flerovium</option>
+          <option>Moscovium</option>
+          <option>Livermorium</option>
+          <option>Tennessine</option>
+          <option>Oganesson</option>
+        </select>
+      </div>
+      <div class="example full-width icons">
+        <label for="icon-support">Custom style and icon support</label>
+        <select id="icon-support">
+          <option data-icon="demo-icons.svg#home">Neptunium</option>
+          <option data-icon="demo-icons.svg#share">Plutonium</option>
+          <option data-icon="demo-icons.svg#image">Americium</option>
+          <option data-icon="demo-icons.svg#camera">Curium</option>
+          <option data-icon="demo-icons.svg#music">Berkelium</option>
+          <option data-icon="demo-icons.svg#play">Californium</option>
+          <option data-icon="demo-icons.svg#books">Einsteinium</option>
+          <option data-icon="demo-icons.svg#credit-card">Fermium</option>
+          <option data-icon="demo-icons.svg#phone">Mendelevium</option>
+          <option data-icon="demo-icons.svg#location">Nobelium</option>
+          <option data-icon="demo-icons.svg#calendar">Lawrencium</option>
+          <option data-icon="demo-icons.svg#box-add">Rutherfordium</option>
+          <option data-icon="demo-icons.svg#users">Dubnium</option>
+          <option data-icon="demo-icons.svg#equalizer">Seaborgium</option>
+          <option data-icon="demo-icons.svg#pie-chart">Bohrium</option>
+          <option data-icon="demo-icons.svg#stats-dots">Hassium</option>
+          <option data-icon="demo-icons.svg#trophy">Meitnerium</option>
+          <option data-icon="demo-icons.svg#gift">Darmstadtium</option>
+          <option data-icon="demo-icons.svg#fire">Roentgenium</option>
+          <option data-icon="demo-icons.svg#lab">Copernicium</option>
+          <option data-icon="demo-icons.svg#cloud">Nihonium</option>
+          <option data-icon="demo-icons.svg#bookmarks">Flerovium</option>
+          <option data-icon="demo-icons.svg#star-full">Moscovium</option>
+          <option data-icon="demo-icons.svg#heart">Livermorium</option>
+          <option data-icon="demo-icons.svg#make-group">Tennessine</option>
+          <option data-icon="demo-icons.svg#rss">Oganesson</option>
+        </select>
+      </div>
+      <div class="example full-width auto-position">
+        <label for="auto-position">Auto-position example (Menu opens on top unless you scroll down)</label>
+        <select id="auto-position">
+          <option>Neptunium</option>
+          <option>Plutonium</option>
+          <option>Americium</option>
+          <option>Curium</option>
+          <option>Berkelium</option>
+          <option>Californium</option>
+          <option>Einsteinium</option>
+          <option>Fermium</option>
+          <option>Mendelevium</option>
+          <option>Nobelium</option>
+          <option>Lawrencium</option>
+          <option>Rutherfordium</option>
+          <option>Dubnium</option>
+          <option>Seaborgium</option>
+          <option>Bohrium</option>
+          <option>Hassium</option>
+          <option>Meitnerium</option>
+          <option>Darmstadtium</option>
+          <option>Roentgenium</option>
+          <option>Copernicium</option>
+          <option>Nihonium</option>
+          <option>Flerovium</option>
+          <option>Moscovium</option>
+          <option>Livermorium</option>
+          <option>Tennessine</option>
+          <option>Oganesson</option>
+        </select>
+      </div>
     </div>
-    <svg style="display: none;" xmlns="http://www.w3.org/2000/svg">
-      <symbol id="icon-cog" viewBox="0 0 24 24">
-        <path d="M19.9,12.66a1,1,0,0,1,0-1.32L21.18,9.9a1,1,0,0,0,.12-1.17l-2-3.46a1,1,0,0,0-1.07-.48l-1.88.38a1,1,0,0,1-1.15-.66l-.61-1.83A1,1,0,0,0,13.64,2h-4a1,1,0,0,0-1,.68L8.08,4.51a1,1,0,0,1-1.15.66L5,4.79A1,1,0,0,0,4,5.27L2,8.73A1,1,0,0,0,2.1,9.9l1.27,1.44a1,1,0,0,1,0,1.32L2.1,14.1A1,1,0,0,0,2,15.27l2,3.46a1,1,0,0,0,1.07.48l1.88-.38a1,1,0,0,1,1.15.66l.61,1.83a1,1,0,0,0,1,.68h4a1,1,0,0,0,.95-.68l.61-1.83a1,1,0,0,1,1.15-.66l1.88.38a1,1,0,0,0,1.07-.48l2-3.46a1,1,0,0,0-.12-1.17ZM18.41,14l.8.9-1.28,2.22-1.18-.24a3,3,0,0,0-3.45,2L12.92,20H10.36L10,18.86a3,3,0,0,0-3.45-2l-1.18.24L4.07,14.89l.8-.9a3,3,0,0,0,0-4l-.8-.9L5.35,6.89l1.18.24a3,3,0,0,0,3.45-2L10.36,4h2.56l.38,1.14a3,3,0,0,0,3.45,2l1.18-.24,1.28,2.22-.8.9A3,3,0,0,0,18.41,14ZM11.64,8a4,4,0,1,0,4,4A4,4,0,0,0,11.64,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,11.64,14Z"></path>
-      </symbol>
-    </svg>
     <script type="text/javascript" src="fancyselect.min.js"></script>
   </body>
 </html>

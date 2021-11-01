@@ -10,6 +10,7 @@
   --fsb-arrow-size: 6px;
   --fsb-arrow-padding: var(--fsb-padding);
   --fsb-arrow-color: currentColor;
+  --fsb-icon-color: currentColor;
   --fsb-list-height: 300px;
   --fsb-list-border: var(--fsb-border);
   --fsb-list-radius: 3px;
@@ -56,6 +57,7 @@ select:not(.fsb-ignore) {
   border: var(--fsb-border);
   border-radius: 5px;
   border-radius: var(--fsb-radius);
+  box-sizing: border-box;
   color: inherit;
   color: var(--fsb-color);
   background-color: #fff;
@@ -70,8 +72,9 @@ select:not(.fsb-ignore) {
   width: 1em;
   height: 1em;
   margin-right: 8px;
-  margin-right: var(--fsb-padding);
+  margin-right: var(--fsb-padding-right);
   fill: currentColor;
+  fill: var(--fsb-icon-color);
   pointer-events: none;
 }
 

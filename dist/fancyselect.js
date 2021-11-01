@@ -164,14 +164,13 @@
     }
 
     // Open the list box and focus the selected item
+    button.parentNode.className = 'fsb-select';
     button.setAttribute('aria-expanded', 'true');
     selectedItem.focus();
 
     // Position the list box on top of the button if there isn't enough space on the bottom
     if (rect.y + rect.height + list.offsetHeight > document.documentElement.clientHeight) {
       button.parentNode.className = 'fsb-select fsb-top';
-    } else {
-      button.parentNode.className = 'fsb-select';
     }
   }
 
