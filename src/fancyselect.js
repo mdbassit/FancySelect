@@ -19,7 +19,7 @@
     document.querySelectorAll('select:not(.fsb-ignore)').forEach(select => {
 
       // Skip if the native select has already been processed
-      if (select.nextElementSibling && select.nextElementSibling.classList.contains('.fsb-select')) {
+      if (select.nextElementSibling && select.nextElementSibling.classList.contains('fsb-select')) {
         return;
       }
 
