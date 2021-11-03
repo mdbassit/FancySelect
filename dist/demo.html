@@ -10,7 +10,7 @@
     @import url(https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap);
 
     body {
-      height: 140vh;
+      height: 150vh;
       margin: 30px;
       color: #444;
       background-color: #eee;
@@ -19,7 +19,7 @@
     }
 
     h1 {
-      margin-bottom: 1.5em;
+      margin-bottom: 1em;
     }
 
     label {
@@ -65,11 +65,13 @@
       --fsb-list-height: 350px;
     }
 
-    .auto-position {
-      position: absolute;
-      width: calc(100% - 60px);
-      max-width: 500px;
-      bottom: 30px;
+    @media screen and (min-height: 680px) {
+      .auto-position {
+        position: absolute;
+        width: calc(100% - 60px);
+        max-width: 500px;
+        bottom: 20px;
+      }
     }
 
     </style>
