@@ -452,6 +452,18 @@
     closeListBox();
   });
 
+  // Expose the constructor to the global scope
+  window.FancySelect = (() => {
+    function FancySelect() {
+      DOMReady(init);
+    }
+
+    // Alternative method to initialize the custom select boxes
+    FancySelect.init = FancySelect;
+
+    return FancySelect;
+  })();
+
   // Initialize the custom select boxes when the DOM is ready
   DOMReady(init);
 
