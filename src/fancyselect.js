@@ -144,7 +144,7 @@
     let label = text;
 
     if (icon !== null) {
-      label = `<svg><use href="${icon}"></use></svg> ${label}`;
+      label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${label}</span>`;
     }
 
     return label;
