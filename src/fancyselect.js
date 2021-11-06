@@ -141,7 +141,7 @@
   function getItemLabel(option) {
     const text = option.text;
     const icon = option.getAttribute('data-icon');
-    let label = text;
+    let label = text !== '' ? text : '&nbsp;';
 
     if (icon !== null) {
       label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${label}</span>`;
