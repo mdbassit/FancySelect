@@ -100,6 +100,65 @@
   }
 
   /**
+   * Update the custom select box attached to a native select.
+   * @param {object} select The native select.
+   */ 
+  function update(select) {
+    const options = select.children;
+    const parentNode = select.parentNode;
+    const customSelect = select.nextElementSibling;
+
+    // Abort if this native select hasn't been initialized
+    if (!customSelect || !customSelect.classList.contains('fsb-select')) {
+      return;
+    }
+
+    const label = customSelect.firstElementChild;
+    const button = label.nextElementSibling;
+    const list = button.nextElementSibling;
+    const widthAdjuster = list.nextElementSibling;
+    const listContent = document.createDocumentFragment();
+
+    // Update the accessibility label 
+    label.textContent = getNativeSelectLabel(select, parentNode);
+
+    // Update the button status
+    button.setAttribute('aria-disabled', select.disabled);
+
+    // Generate the list items
+    for (let i = 0, len = options.length; i < len; i++) {
+      const option = options[i];
+      const item = document.createElement('span');
+      const itemLabel = getItemLabel(option);
+      const selected = option.selected;
+
+      item.className = 'fsb-option';
+      item.innerHTML = itemLabel;
+      item.setAttribute('role', 'option');
+      item.setAttribute('tabindex', '-1');
+      item.setAttribute('aria-selected', selected);
+      listContent.appendChild(item);
+
+      if (selected) {
+       button.innerHTML = itemLabel;
+      }
+    }
+
+    // Clear the list box
+    while (list.firstChild) {
+       list.removeChild(list.firstChild);
+    }
+
+    // Update the list items
+    list.appendChild(listContent);
+
+    // Force the select box to take the width of the longest item by default
+    if (list.firstElementChild) {
+      widthAdjuster.firstElementChild.setAttribute('style', `width: ${list.firstElementChild.offsetWidth}px;`);
+    }
+  }
+
+  /**
    * Try to guess the native select element's label if any.
    * @param {object} select The native select.
    * @param {object} parent The parent node.
@@ -458,8 +517,9 @@
       DOMReady(init);
     }
 
-    // Alternative method to initialize the custom select boxes
+    // Available methodes
     FancySelect.init = FancySelect;
+    FancySelect.update = update;
 
     return FancySelect;
   })();
