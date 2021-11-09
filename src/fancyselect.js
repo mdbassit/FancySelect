@@ -54,20 +54,12 @@
 
       // List items
       for (let i = 0, len = options.length; i < len; i++) {
-        const option = options[i];
-        const item = document.createElement('span');
-        const itemLabel = getItemLabel(option);
-        const selected = option.selected;
+        const { item, selected, itemLabel } = getItemFromOption(options[i]);
 
-        item.className = 'fsb-option';
-        item.innerHTML = itemLabel;
-        item.setAttribute('role', 'option');
-        item.setAttribute('tabindex', '-1');
-        item.setAttribute('aria-selected', selected);
         list.appendChild(item);
 
         if (selected) {
-         button.innerHTML = itemLabel;
+          button.innerHTML = itemLabel;
         }
       }
 
@@ -127,26 +119,18 @@
 
     // Generate the list items
     for (let i = 0, len = options.length; i < len; i++) {
-      const option = options[i];
-      const item = document.createElement('span');
-      const itemLabel = getItemLabel(option);
-      const selected = option.selected;
+      const { item, selected, itemLabel } = getItemFromOption(options[i]);
 
-      item.className = 'fsb-option';
-      item.innerHTML = itemLabel;
-      item.setAttribute('role', 'option');
-      item.setAttribute('tabindex', '-1');
-      item.setAttribute('aria-selected', selected);
       listContent.appendChild(item);
 
       if (selected) {
-       button.innerHTML = itemLabel;
+        button.innerHTML = itemLabel;
       }
     }
 
     // Clear the list box
     while (list.firstChild) {
-       list.removeChild(list.firstChild);
+      list.removeChild(list.firstChild);
     }
 
     // Update the list items
@@ -193,20 +177,28 @@
   }
 
   /**
-   * Infer the list item's label from the native select option.
+   * Generate a listbox item from a native select option.
    * @param {object} option The native select option.
-   * @return {string} The list item's label.
+   * @return {object} The listbox item, its selected state and its label.
    */ 
-  function getItemLabel(option) {
+  function getItemFromOption(option) {
+    const item = document.createElement('span');
+    const selected = option.selected;
     const text = option.text;
     const icon = option.getAttribute('data-icon');
-    let label = text !== '' ? text : '&nbsp;';
+    let itemLabel = text !== '' ? text : '&nbsp;';
 
     if (icon !== null) {
-      label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${label}</span>`;
+      itemLabel = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${itemLabel}</span>`;
     }
 
-    return label;
+    item.className = 'fsb-option';
+    item.innerHTML = itemLabel;
+    item.setAttribute('role', 'option');
+    item.setAttribute('tabindex', '-1');
+    item.setAttribute('aria-selected', selected);
+
+    return { item, selected, itemLabel };
   }
 
   /**
