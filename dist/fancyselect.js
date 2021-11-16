@@ -12,91 +12,141 @@
 
   /**
    * Initialize the custom select box elements.
+   * @param {string} [selector] An optional selector representing native select elements.
    */
-  function init() {
+  function init(selector) {
+    selector = selector || 'select:not(.fsb-ignore)';
 
-    // Replace native select elements with custom select boxes
-    document.querySelectorAll('select:not(.fsb-ignore)').forEach(function (select) {
+    // Replace all eligible native select elements with custom select boxes
+    document.querySelectorAll(selector).forEach(replaceNativeSelect);
+  }
 
-      // Skip if the native select has already been processed
-      if (select.nextElementSibling && select.nextElementSibling.classList.contains('.fsb-select')) {
-        return;
+  /**
+   * Replace a native select element with a custom select box.
+   * @param {object} select The native select.
+   */
+  function replaceNativeSelect(select) {
+    // Skip if the native select has already been processed
+    if (select.nextElementSibling && select.nextElementSibling.classList.contains('fsb-select')) {
+      return;
+    }
+
+    var options = select.children;
+    var parentNode = select.parentNode;
+    var customSelect = document.createElement('span');
+    var label = document.createElement('span');
+    var button = document.createElement('button');
+    var list = document.createElement('span');
+    var widthAdjuster = document.createElement('span');
+    var index = counter++;
+
+    // Label for accessibility
+    label.id = "fsb_" + index + "_label";
+    label.className = 'fsb-label';
+    label.textContent = getNativeSelectLabel(select, parentNode);
+
+    // List box button
+    button.id = "fsb_" + index + "_button";
+    button.className = 'fsb-button';
+    button.textContent = '&nbsp;';
+    button.setAttribute('aria-disabled', select.disabled);
+    button.setAttribute('aria-haspopup', 'listbox');
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-labelledby', "fsb_" + index + "_label fsb_" + index + "_button");
+
+    // List box
+    list.className = 'fsb-list';
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('tabindex', '-1');
+    list.setAttribute('aria-labelledby', "fsb_" + index + "_label");
+
+    // List items
+    for (var i = 0, len = options.length; i < len; i++) {
+      var _getItemFromOption = getItemFromOption(options[i]),item = _getItemFromOption.item,selected = _getItemFromOption.selected,itemLabel = _getItemFromOption.itemLabel;
+
+      list.appendChild(item);
+
+      if (selected) {
+        button.innerHTML = itemLabel;
       }
+    }
 
-      var options = select.children;
-      var parentNode = select.parentNode;
-      var customSelect = document.createElement('span');
-      var label = document.createElement('span');
-      var button = document.createElement('button');
-      var list = document.createElement('span');
-      var widthAdjuster = document.createElement('span');
-      var index = counter++;
+    // Custom select box container
+    customSelect.className = 'fsb-select';
+    customSelect.appendChild(label);
+    customSelect.appendChild(button);
+    customSelect.appendChild(list);
+    customSelect.appendChild(widthAdjuster);
 
-      // Label for accessibility
-      label.id = "fsb_" + index + "_label";
-      label.className = 'fsb-label';
-      label.textContent = getNativeSelectLabel(select, parentNode);
+    // Hide the native select
+    select.style.display = 'none';
 
-      // List box button
-      button.id = "fsb_" + index + "_button";
-      button.className = 'fsb-button';
-      button.textContent = '&nbsp;';
-      button.setAttribute('aria-disabled', select.disabled);
-      button.setAttribute('aria-haspopup', 'listbox');
-      button.setAttribute('aria-expanded', 'false');
-      button.setAttribute('aria-labelledby', "fsb_" + index + "_label fsb_" + index + "_button");
+    // Insert the custom select box after the native select
+    if (select.nextSibling) {
+      parentNode.insertBefore(customSelect, select.nextSibling);
+    } else {
+      parentNode.appendChild(customSelect);
+    }
 
-      // List box
-      list.className = 'fsb-list';
-      list.setAttribute('role', 'listbox');
-      list.setAttribute('tabindex', '-1');
-      list.setAttribute('aria-labelledby', "fsb_" + index + "_label");
+    // Force the select box to take the width of the longest item by default
+    if (list.firstElementChild) {
+      var span = document.createElement('span');
 
-      // List items
-      for (var i = 0, len = options.length; i < len; i++) {
-        var option = options[i];
-        var item = document.createElement('span');
-        var itemLabel = getItemLabel(option);
-        var selected = option.selected;
+      span.setAttribute('style', "width: " + list.firstElementChild.offsetWidth + "px;");
+      widthAdjuster.className = 'fsb-resize';
+      widthAdjuster.appendChild(span);
+    }
+  }
 
-        item.className = 'fsb-option';
-        item.innerHTML = itemLabel;
-        item.setAttribute('role', 'option');
-        item.setAttribute('tabindex', '-1');
-        item.setAttribute('aria-selected', selected);
-        list.appendChild(item);
+  /**
+   * Update the custom select box attached to a native select.
+   * @param {object} select The native select.
+   */
+  function updateFromNativeSelect(select) {
+    var options = select.children;
+    var parentNode = select.parentNode;
+    var customSelect = select.nextElementSibling;
 
-        if (selected) {
-          button.innerHTML = itemLabel;
-        }
+    // Abort if this native select hasn't been initialized
+    if (!customSelect || !customSelect.classList.contains('fsb-select')) {
+      return;
+    }
+
+    var label = customSelect.firstElementChild;
+    var button = label.nextElementSibling;
+    var list = button.nextElementSibling;
+    var widthAdjuster = list.nextElementSibling;
+    var listContent = document.createDocumentFragment();
+
+    // Update the accessibility label 
+    label.textContent = getNativeSelectLabel(select, parentNode);
+
+    // Update the button status
+    button.setAttribute('aria-disabled', select.disabled);
+
+    // Generate the list items
+    for (var i = 0, len = options.length; i < len; i++) {
+      var _getItemFromOption2 = getItemFromOption(options[i]),item = _getItemFromOption2.item,selected = _getItemFromOption2.selected,itemLabel = _getItemFromOption2.itemLabel;
+
+      listContent.appendChild(item);
+
+      if (selected) {
+        button.innerHTML = itemLabel;
       }
+    }
 
-      // Custom select box container
-      customSelect.className = 'fsb-select';
-      customSelect.appendChild(label);
-      customSelect.appendChild(button);
-      customSelect.appendChild(list);
-      customSelect.appendChild(widthAdjuster);
+    // Clear the list box
+    while (list.firstChild) {
+      list.removeChild(list.firstChild);
+    }
 
-      // Hide the native select
-      select.style.display = 'none';
+    // Update the list items
+    list.appendChild(listContent);
 
-      // Insert the custom select box after the native select
-      if (select.nextSibling) {
-        parentNode.insertBefore(customSelect, select.nextSibling);
-      } else {
-        parentNode.appendChild(customSelect);
-      }
-
-      // Force the select box to take the width of the longest item by default
-      if (list.firstElementChild) {
-        var span = document.createElement('span');
-
-        span.setAttribute('style', "width: " + list.firstElementChild.offsetWidth + "px;");
-        widthAdjuster.className = 'fsb-resize';
-        widthAdjuster.appendChild(span);
-      }
-    });
+    // Force the select box to take the width of the longest item by default
+    if (list.firstElementChild) {
+      widthAdjuster.firstElementChild.setAttribute('style', "width: " + list.firstElementChild.offsetWidth + "px;");
+    }
   }
 
   /**
@@ -134,20 +184,28 @@
   }
 
   /**
-   * Infer the list item's label from the native select option.
+   * Generate a listbox item from a native select option.
    * @param {object} option The native select option.
-   * @return {string} The list item's label.
+   * @return {object} The listbox item, its selected state and its label.
    */
-  function getItemLabel(option) {
+  function getItemFromOption(option) {
+    var item = document.createElement('span');
+    var selected = option.selected;
     var text = option.text;
     var icon = option.getAttribute('data-icon');
-    var label = text;
+    var itemLabel = text !== '' ? text : '&nbsp;';
 
     if (icon !== null) {
-      label = "<svg><use href=\"" + icon + "\"></use></svg> " + label;
+      itemLabel = "<svg aria-hidden=\"true\"><use href=\"" + icon + "\"></use></svg> <span>" + itemLabel + "</span>";
     }
 
-    return label;
+    item.className = 'fsb-option';
+    item.innerHTML = itemLabel;
+    item.setAttribute('role', 'option');
+    item.setAttribute('tabindex', '-1');
+    item.setAttribute('aria-selected', selected);
+
+    return { item: item, selected: selected, itemLabel: itemLabel };
   }
 
   /**
@@ -336,12 +394,17 @@
   /**
    * Call a function only when the DOM is ready.
    * @param {function} fn The function to call.
+   * @param {array} [args] Arguments to pass to the function.
    */
-  function DOMReady(fn) {
+  function DOMReady(fn, args) {
+    args = args !== undefined ? args : [];
+
     if (document.readyState !== 'loading') {
-      fn();
+      fn.apply(void 0, args);
     } else {
-      document.addEventListener('DOMContentLoaded', fn);
+      document.addEventListener('DOMContentLoaded', function () {
+        fn.apply(void 0, args);
+      });
     }
   }
 
@@ -451,6 +514,19 @@
   addListener(document, 'click', function (event) {
     closeListBox();
   });
+
+  // Expose the constructor to the global scope
+  window.FancySelect = function () {
+    function FancySelect() {
+      DOMReady(init);
+    }
+
+    // Available methodes
+    FancySelect.init = init;
+    FancySelect.update = updateFromNativeSelect;
+
+    return FancySelect;
+  }();
 
   // Initialize the custom select boxes when the DOM is ready
   DOMReady(init);
