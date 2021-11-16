@@ -12,90 +12,97 @@
 
   /**
    * Initialize the custom select box elements.
+   * @param {string} [selector] An optional selector representing native select elements.
    */
-  function init() {
+  function init(selector) {
+    selector = selector || 'select:not(.fsb-ignore)';
 
-    // Replace native select elements with custom select boxes
-    document.querySelectorAll('select:not(.fsb-ignore)').forEach(select => {
+    // Replace all eligible native select elements with custom select boxes
+    document.querySelectorAll(selector).forEach(replaceNativeSelect);
+  }
 
-      // Skip if the native select has already been processed
-      if (select.nextElementSibling && select.nextElementSibling.classList.contains('fsb-select')) {
-        return;
+  /**
+   * Replace a native select element with a custom select box.
+   * @param {object} select The native select.
+   */ 
+  function replaceNativeSelect(select) {
+    // Skip if the native select has already been processed
+    if (select.nextElementSibling && select.nextElementSibling.classList.contains('fsb-select')) {
+      return;
+    }
+
+    const options = select.children;
+    const parentNode = select.parentNode;
+    const customSelect = document.createElement('span');
+    const label = document.createElement('span');
+    const button = document.createElement('button');
+    const list = document.createElement('span');
+    const widthAdjuster = document.createElement('span');
+    const index = counter++;
+
+    // Label for accessibility
+    label.id = `fsb_${index}_label`;
+    label.className = 'fsb-label';
+    label.textContent = getNativeSelectLabel(select, parentNode);
+
+    // List box button
+    button.id = `fsb_${index}_button`;
+    button.className = 'fsb-button';
+    button.textContent = '&nbsp;';
+    button.setAttribute('aria-disabled', select.disabled);
+    button.setAttribute('aria-haspopup', 'listbox');
+    button.setAttribute('aria-expanded', 'false');
+    button.setAttribute('aria-labelledby', `fsb_${index}_label fsb_${index}_button`);
+
+    // List box
+    list.className = 'fsb-list';
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('tabindex', '-1');
+    list.setAttribute('aria-labelledby', `fsb_${index}_label`);
+
+    // List items
+    for (let i = 0, len = options.length; i < len; i++) {
+      const { item, selected, itemLabel } = getItemFromOption(options[i]);
+
+      list.appendChild(item);
+
+      if (selected) {
+        button.innerHTML = itemLabel;
       }
+    }
 
-      const options = select.children;
-      const parentNode = select.parentNode;
-      const customSelect = document.createElement('span');
-      const label = document.createElement('span');
-      const button = document.createElement('button');
-      const list = document.createElement('span');
-      const widthAdjuster = document.createElement('span');
-      const index = counter++;
+    // Custom select box container
+    customSelect.className = 'fsb-select';
+    customSelect.appendChild(label);
+    customSelect.appendChild(button);
+    customSelect.appendChild(list);
+    customSelect.appendChild(widthAdjuster);
 
-      // Label for accessibility
-      label.id = `fsb_${index}_label`;
-      label.className = 'fsb-label';
-      label.textContent = getNativeSelectLabel(select, parentNode);
+    // Hide the native select
+    select.style.display = 'none';
 
-      // List box button
-      button.id = `fsb_${index}_button`;
-      button.className = 'fsb-button';
-      button.textContent = '&nbsp;';
-      button.setAttribute('aria-disabled', select.disabled);
-      button.setAttribute('aria-haspopup', 'listbox');
-      button.setAttribute('aria-expanded', 'false');
-      button.setAttribute('aria-labelledby', `fsb_${index}_label fsb_${index}_button`);
+    // Insert the custom select box after the native select
+    if (select.nextSibling) {
+      parentNode.insertBefore(customSelect, select.nextSibling);
+    } else {
+      parentNode.appendChild(customSelect);
+    }
 
-      // List box
-      list.className = 'fsb-list';
-      list.setAttribute('role', 'listbox');
-      list.setAttribute('tabindex', '-1');
-      list.setAttribute('aria-labelledby', `fsb_${index}_label`);
+    // Force the select box to take the width of the longest item by default
+    if (list.firstElementChild) {
+      const span = document.createElement('span');
 
-      // List items
-      for (let i = 0, len = options.length; i < len; i++) {
-        const { item, selected, itemLabel } = getItemFromOption(options[i]);
-
-        list.appendChild(item);
-
-        if (selected) {
-          button.innerHTML = itemLabel;
-        }
-      }
-
-      // Custom select box container
-      customSelect.className = 'fsb-select';
-      customSelect.appendChild(label);
-      customSelect.appendChild(button);
-      customSelect.appendChild(list);
-      customSelect.appendChild(widthAdjuster);
-
-      // Hide the native select
-      select.style.display = 'none';
-
-      // Insert the custom select box after the native select
-      if (select.nextSibling) {
-        parentNode.insertBefore(customSelect, select.nextSibling);
-      } else {
-        parentNode.appendChild(customSelect);
-      }
-
-      // Force the select box to take the width of the longest item by default
-      if (list.firstElementChild) {
-        const span = document.createElement('span');
-
-        span.setAttribute('style', `width: ${list.firstElementChild.offsetWidth}px;`);
-        widthAdjuster.className = 'fsb-resize'
-        widthAdjuster.appendChild(span);
-      }
-    });
+      span.setAttribute('style', `width: ${list.firstElementChild.offsetWidth}px;`);
+      widthAdjuster.className = 'fsb-resize'
+      widthAdjuster.appendChild(span);
+    }
   }
 
   /**
    * Update the custom select box attached to a native select.
    * @param {object} select The native select.
    */ 
-  function update(select) {
+  function updateFromNativeSelect(select) {
     const options = select.children;
     const parentNode = select.parentNode;
     const customSelect = select.nextElementSibling;
@@ -387,12 +394,17 @@
   /**
    * Call a function only when the DOM is ready.
    * @param {function} fn The function to call.
-   */ 
-  function DOMReady(fn) {
+   * @param {array} [args] Arguments to pass to the function.
+   */
+  function DOMReady(fn, args) {
+    args = args !== undefined ? args : [];
+
     if (document.readyState !== 'loading') {
-      fn();
+      fn(...args);
     } else {
-      document.addEventListener('DOMContentLoaded', fn);
+      document.addEventListener('DOMContentLoaded', () => {
+        fn(...args);
+      });
     }
   }
 
@@ -510,8 +522,8 @@
     }
 
     // Available methodes
-    FancySelect.init = FancySelect;
-    FancySelect.update = update;
+    FancySelect.init = init;
+    FancySelect.update = updateFromNativeSelect;
 
     return FancySelect;
   })();
