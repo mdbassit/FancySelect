@@ -36,12 +36,23 @@ Or include from a CDN:
 
 The native select elements will be replaced automatically.
 
+### Excluding specific elements
+
+### Updating options
+
+If there is a need to programmatically update a native select element's options, calling fancySelect.update() with the native select element as an argument will update the custom select box.
+
+### Disabling and enabling
+
+The disabled state is detected automatically. If a native select element's disabled state was updated after fancySelect initialization, calling fancySelect.update() as explained earlier will update it.
+
+### Change and input events
+
 ### Customization
 
 ### Icons
 
 ### About multi-select
-
 
 ## Building from source
 
