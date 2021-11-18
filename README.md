@@ -8,7 +8,7 @@ A tiny drop-in replacement for native HTML single select elements written in van
 
 ## Motivation
 
-**Why not just style a native select element with CSS?**
+**Why not just style a native select element with CSS?**  
 Absolutely do that if it's enough for your use case. The main reason I created this project is because I needed a drop down list of icons that didn't suck.
 
 ## Features
