@@ -73,7 +73,8 @@ const newItems = ['Californium', 'Vibranium', 'Uranium'];
 newItems.forEach(item => {
   const option = document.createElement('option');
   option.textContent = item;
-  myselect.appendChild(option);
+  myselect.appendChild(option); 
+  // Please don't add select options to the DOM individually in production. Use a documentFragment.
 });
 
 // Update the custom listbox
