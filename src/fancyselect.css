@@ -105,6 +105,11 @@ select:not(.fsb-ignore) {
   overflow: hidden;
 }
 
+.fsb-button > span,
+.fsb-option > span {
+  pointer-events: none;
+}
+
 select[disabled] + .fsb-select .fsb-button {
   opacity: .4;
   pointer-events: none;
