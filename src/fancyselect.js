@@ -4,7 +4,7 @@
  * https://github.com/mdbassit/fancySelect
  */
 
-(function (window, document) {
+(function (window, document, autoInitialize) {
 
   let searchString = '';
   let searchTimeout = null;
@@ -529,7 +529,9 @@
   })();
 
   // Initialize the custom select boxes when the DOM is ready
-  DOMReady(init);
+  if (autoInitialize) {
+    DOMReady(init);
+  }
 
-})(window, document);
+})(window, document, typeof FancySelectAutoInitialize !== 'undefined' ? FancySelectAutoInitialize : true );
   
