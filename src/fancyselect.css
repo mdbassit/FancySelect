@@ -20,7 +20,7 @@
   --fsb-hover-background: #ddd;
 }
 
-select:not(.fsb-ignore) {
+.fsb-original-select {
   display: inline-block;
   margin: 0;
   padding: 8px 22px 8px 8px;
@@ -37,7 +37,7 @@ select::-ms-expand {
   display: none;
 }
 
-select:not(.fsb-ignore)[disabled] {
+.fsb-original-select[disabled] {
   color: rgba(0, 0, 0, .3);
   cursor: not-allowed;
 }
@@ -52,7 +52,7 @@ select[disabled] + .fsb-select {
 }
 
 .fsb-select,
-select:not(.fsb-ignore) {
+.fsb-original-select {
   border: 1px solid #ccc;
   border: var(--fsb-border);
   border-radius: 5px;

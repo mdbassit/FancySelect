@@ -40,6 +40,9 @@
     const widthAdjuster = document.createElement('span');
     const index = counter++;
 
+    // Add a custom CSS class to the native select element
+    select.classList.add('fsb-original-select');
+
     // Label for accessibility
     label.id = `fsb_${index}_label`;
     label.className = 'fsb-label';
