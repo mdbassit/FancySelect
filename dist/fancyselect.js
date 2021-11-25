@@ -4,7 +4,7 @@
  * https://github.com/mdbassit/fancySelect
  */
 
-(function (window, document) {
+(function (window, document, autoInitialize) {
 
   var searchString = '';
   var searchTimeout = null;
@@ -39,6 +39,9 @@
     var list = document.createElement('span');
     var widthAdjuster = document.createElement('span');
     var index = counter++;
+
+    // Add a custom CSS class to the native select element
+    select.classList.add('fsb-original-select');
 
     // Label for accessibility
     label.id = "fsb_" + index + "_label";
@@ -529,6 +532,8 @@
   }();
 
   // Initialize the custom select boxes when the DOM is ready
-  DOMReady(init);
+  if (autoInitialize) {
+    DOMReady(init);
+  }
 
-})(window, document);
+})(window, document, typeof FancySelectAutoInitialize !== 'undefined' ? FancySelectAutoInitialize : true);
