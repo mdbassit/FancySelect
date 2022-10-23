@@ -6,6 +6,7 @@
 
 (function (window, document, autoInitialize) {
 
+  let currentElement = null;
   let searchString = '';
   let searchTimeout = null;
   let counter = 0;
@@ -228,6 +229,7 @@
     button.parentNode.className = 'fsb-select';
     button.setAttribute('aria-expanded', 'true');
     selectedItem.focus();
+    currentElement = button;
 
     // Position the list box on top of the button if there isn't enough space on the bottom
     if (rect.y + rect.height + list.offsetHeight > document.documentElement.clientHeight) {
@@ -414,7 +416,13 @@
   // On click on the list box button
   addListener(document, 'click', '.fsb-button', event => {
     closeListBox();
-    openListBox(event.target);
+
+    if (currentElement === event.target) {
+      currentElement = null;
+    } else {
+      openListBox(event.target);
+    }
+
     event.preventDefault();
     event.stopImmediatePropagation();
   });
