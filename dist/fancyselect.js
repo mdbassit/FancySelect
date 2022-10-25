@@ -464,6 +464,7 @@
 
   // On click on an item
   addListener(document, 'click', '.fsb-option', function (event) {
+    currentElement = null;
     selectItem(event.target);
     closeListBox(true);
   });
