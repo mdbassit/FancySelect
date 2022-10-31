@@ -255,6 +255,8 @@
       searchString = '';
       searchTimeout = null;
     }
+
+    currentElement = null;
   }
 
   /**
@@ -415,11 +417,11 @@
 
   // On click on the list box button
   addListener(document, 'click', '.fsb-button', function (event) {
+    var isClickToClose = currentElement === event.target;
+
     closeListBox();
 
-    if (currentElement === event.target) {
-      currentElement = null;
-    } else {
+    if (!isClickToClose) {
       openListBox(event.target);
     }
 
@@ -464,7 +466,6 @@
 
   // On click on an item
   addListener(document, 'click', '.fsb-option', function (event) {
-    currentElement = null;
     selectItem(event.target);
     closeListBox(true);
   });
