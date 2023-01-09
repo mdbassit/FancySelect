@@ -196,13 +196,7 @@
   function getItemFromOption(option) {
     const item = document.createElement('span');
     const selected = option.selected;
-    const text = option.text;
-    const icon = option.getAttribute('data-icon');
-    let itemLabel = text !== '' ? text : '&nbsp;';
-
-    if (icon !== null) {
-      itemLabel = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${itemLabel}</span>`;
-    }
+    const itemLabel = getItemLabel(option);
 
     item.className = 'fsb-option';
     item.innerHTML = itemLabel;
@@ -211,6 +205,23 @@
     item.setAttribute('aria-selected', selected);
 
     return { item, selected, itemLabel };
+  }
+
+  /**
+   * Render a listbox item's label.
+   * @param {object} option The native select option.
+   * @return {string} The listbox item's label.
+   */ 
+  function getItemLabel(option) {
+    const text = option.text;
+    const icon = option.getAttribute('data-icon');
+    let label = text !== '' ? text : '&nbsp;';
+
+    if (icon !== null) {
+      label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${label}</span>`;
+    }
+
+    return label;
   }
 
   /**
