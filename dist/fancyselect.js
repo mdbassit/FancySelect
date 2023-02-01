@@ -25,8 +25,9 @@
   /**
    * Replace a native select element with a custom select box.
    * @param {object} select The native select.
+   * @param {function} [renderer] An optional custom item label renderer.
    */
-  function replaceNativeSelect(select) {
+  function replaceNativeSelect(select, renderer) {
     // Skip if the native select has already been processed
     if (select.nextElementSibling && select.nextElementSibling.classList.contains('fsb-select')) {
       return;
@@ -67,7 +68,7 @@
 
     // List items
     for (var i = 0, len = options.length; i < len; i++) {
-      var _getItemFromOption = getItemFromOption(options[i]),item = _getItemFromOption.item,selected = _getItemFromOption.selected,itemLabel = _getItemFromOption.itemLabel;
+      var _getItemFromOption = getItemFromOption(options[i], renderer),item = _getItemFromOption.item,selected = _getItemFromOption.selected,itemLabel = _getItemFromOption.itemLabel;
 
       list.appendChild(item);
 
@@ -106,8 +107,9 @@
   /**
    * Update the custom select box attached to a native select.
    * @param {object} select The native select.
+   * @param {function} [renderer] An optional custom item label renderer.
    */
-  function updateFromNativeSelect(select) {
+  function updateFromNativeSelect(select, renderer) {
     var options = select.children;
     var parentNode = select.parentNode;
     var customSelect = select.nextElementSibling;
@@ -131,7 +133,7 @@
 
     // Generate the list items
     for (var i = 0, len = options.length; i < len; i++) {
-      var _getItemFromOption2 = getItemFromOption(options[i]),item = _getItemFromOption2.item,selected = _getItemFromOption2.selected,itemLabel = _getItemFromOption2.itemLabel;
+      var _getItemFromOption2 = getItemFromOption(options[i], renderer),item = _getItemFromOption2.item,selected = _getItemFromOption2.selected,itemLabel = _getItemFromOption2.itemLabel;
 
       listContent.appendChild(item);
 
@@ -191,18 +193,13 @@
   /**
    * Generate a listbox item from a native select option.
    * @param {object} option The native select option.
+   * @param {function} [renderer] An optional custom item label renderer.
    * @return {object} The listbox item, its selected state and its label.
    */
-  function getItemFromOption(option) {
+  function getItemFromOption(option, renderer) {
     var item = document.createElement('span');
     var selected = option.selected;
-    var text = option.text;
-    var icon = option.getAttribute('data-icon');
-    var itemLabel = text !== '' ? text : '&nbsp;';
-
-    if (icon !== null) {
-      itemLabel = "<svg aria-hidden=\"true\"><use href=\"" + icon + "\"></use></svg> <span>" + itemLabel + "</span>";
-    }
+    var itemLabel = getItemLabel(option, renderer);
 
     item.className = 'fsb-option';
     item.innerHTML = itemLabel;
@@ -211,6 +208,31 @@
     item.setAttribute('aria-selected', selected);
 
     return { item: item, selected: selected, itemLabel: itemLabel };
+  }
+
+  /**
+   * Render a listbox item's label.
+   * @param {object} option The native select option.
+   * @param {function} [renderer] An optional custom item label renderer.
+   * @return {string} The listbox item's label.
+   */
+  function getItemLabel(option, renderer) {
+    if (typeof renderer === 'function') {
+      return renderer(option);
+    }
+
+    var text = option.text;
+    var icon = option.getAttribute('data-icon');
+    var label = text !== '' ? text : '&nbsp;';
+
+    // Wrap label in a span to better handle long text
+    label = "<span>" + label + "</span>";
+
+    if (icon !== null) {
+      label = "<svg aria-hidden=\"true\"><use href=\"" + icon + "\"></use></svg> <span>" + label + "</span>";
+    }
+
+    return label;
   }
 
   /**
@@ -537,6 +559,7 @@
 
     // Available methodes
     FancySelect.init = init;
+    FancySelect.replace = replaceNativeSelect;
     FancySelect.update = updateFromNativeSelect;
 
     return FancySelect;

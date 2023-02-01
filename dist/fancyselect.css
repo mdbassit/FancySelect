@@ -92,7 +92,7 @@ select[disabled] + .fsb-select {
   height: 100% !important;
   padding: 8px 22px 8px 8px !important;
   padding: var(--fsb-padding) !important;
-  padding-right: var(--fsb-arrow-size) !important;
+  padding-right: calc(var(--fsb-arrow-size) + var(--fsb-arrow-padding)) !important;
   border: 0 !important;
   border-radius: inherit !important;
   color: inherit !important;
@@ -100,6 +100,12 @@ select[disabled] + .fsb-select {
   font-size: 1em !important;
   font-family: inherit !important;
   text-align: inherit !important;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.fsb-button > span {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -146,7 +152,7 @@ select[disabled] + .fsb-select .fsb-list {
   visibility: hidden;
   position: absolute;
   min-width: 100%;
-  height: var(--fsb-list-height);
+  height: 0;
   margin: 0;
   left: 0;
   top: 100%;
@@ -174,6 +180,7 @@ select[disabled] + .fsb-select .fsb-list {
 }
 
 .fsb-button[aria-expanded="true"] + .fsb-list {
+  height: var(--fsb-list-height);
   visibility: visible;
   opacity: 1;
 }
