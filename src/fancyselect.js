@@ -183,6 +183,13 @@
       const label = texts.filter(l => l !== '')[0];
 
       if (label) {
+        // Open the list box on click on the label element
+        labelElement.onclick = event => {
+          select.nextElementSibling.querySelector('button').click();
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        }
+
         return label;
       }
     }
@@ -571,4 +578,3 @@
   }
 
 })(window, document, typeof FancySelectAutoInitialize !== 'undefined' ? FancySelectAutoInitialize : true );
-  
