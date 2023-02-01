@@ -92,7 +92,7 @@ select[disabled] + .fsb-select {
   height: 100% !important;
   padding: 8px 22px 8px 8px !important;
   padding: var(--fsb-padding) !important;
-  padding-right: calc(var(--fsb-arrow-size) + var(--fsb-arrow-padding)) !important;
+  padding-right: calc(var(--fsb-arrow-size) + var(--fsb-arrow-padding) + var(--fsb-padding-right)) !important;
   border: 0 !important;
   border-radius: inherit !important;
   color: inherit !important;
