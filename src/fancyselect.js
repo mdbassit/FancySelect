@@ -225,6 +225,9 @@
     const icon = option.getAttribute('data-icon');
     let label = text !== '' ? text : '&nbsp;';
 
+    // Wrap label in a span to better handle long text
+    label = `<span>${label}</span>`;
+
     if (icon !== null) {
       label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${label}</span>`;
     }
