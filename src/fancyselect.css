@@ -53,6 +53,7 @@ select[disabled] + .fsb-select {
 
 .fsb-select,
 .fsb-original-select {
+  min-width: 0;
   border: 1px solid #ccc;
   border: var(--fsb-border);
   border-radius: 5px;
