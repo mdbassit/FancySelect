@@ -217,7 +217,7 @@
    * @return {string} The listbox item's label.
    */ 
   function getItemLabel(option, renderer) {
-    if (renderer) {
+    if (typeof renderer === 'function') {
       return renderer(option);
     }
 
