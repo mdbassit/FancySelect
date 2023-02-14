@@ -31,7 +31,7 @@ Download the [latest version](https://github.com/mdbassit/FancySelect/releases/l
 <script src="fancyselect.min.js"></script>
 ```
 
-Or include from a CDN:
+Or include from a CDN (not recommended in production):
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/FancySelect@latest/dist/fancyselect.min.css"/>
 <script src="https://cdn.jsdelivr.net/gh/mdbassit/FancySelect@latest/dist/fancyselect.min.js"></script>

@@ -183,6 +183,13 @@
       var label = texts.filter(function (l) {return l !== '';})[0];
 
       if (label) {
+        // Open the list box on click on the label element
+        labelElement.onclick = function (event) {
+          select.nextElementSibling.querySelector('button').click();
+          event.preventDefault();
+          event.stopImmediatePropagation();
+        };
+
         return label;
       }
     }
@@ -229,7 +236,7 @@
     label = "<span>" + label + "</span>";
 
     if (icon !== null) {
-      label = "<svg aria-hidden=\"true\"><use href=\"" + icon + "\"></use></svg> <span>" + label + "</span>";
+      label = "<svg aria-hidden=\"true\"><use href=\"" + icon + "\"></use></svg> " + label;
     }
 
     return label;
