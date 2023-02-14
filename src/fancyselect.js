@@ -236,7 +236,7 @@
     label = `<span>${label}</span>`;
 
     if (icon !== null) {
-      label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> <span>${label}</span>`;
+      label = `<svg aria-hidden="true"><use href="${icon}"></use></svg> ${label}`;
     }
 
     return label;
