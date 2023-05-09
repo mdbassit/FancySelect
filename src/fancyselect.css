@@ -3,7 +3,7 @@
   --fsb-radius: 5px;
   --fsb-color: inherit;
   --fsb-background: #fff;
-  --fsb-font-size: 1em;
+  --fsb-font-size: 1rem;
   --fsb-shadow: 0 1px 1px rgba(0, 0, 0, .1);
   --fsb-padding: 8px;
   --fsb-padding-right: var(--fsb-padding);
@@ -157,7 +157,7 @@ select[disabled] + .fsb-select .fsb-list {
   margin: 0;
   left: 0;
   top: 100%;
-  z-index: 1000;
+  z-index: 1;
   padding: 0;
   border: inherit;
   border: var(--fsb-list-border);
@@ -181,7 +181,8 @@ select[disabled] + .fsb-select .fsb-list {
 }
 
 .fsb-button[aria-expanded="true"] + .fsb-list {
-  height: var(--fsb-list-height);
+  height: auto;
+  max-height: var(--fsb-list-height);
   visibility: visible;
   opacity: 1;
 }
