@@ -4,7 +4,7 @@
  * https://github.com/mdbassit/fancySelect
  */
 
-(function (window, document, autoInitialize) {
+(function (window, document, autoInitialize) {var _this = this;
 
   var currentElement = null;
   var searchString = '';
@@ -206,6 +206,7 @@
   function getItemFromOption(option, renderer) {
     var item = document.createElement('span');
     var selected = option.selected;
+    var disabled = option.disabled;
     var itemLabel = getItemLabel(option, renderer);
 
     item.className = 'fsb-option';
@@ -214,7 +215,11 @@
     item.setAttribute('tabindex', '-1');
     item.setAttribute('aria-selected', selected);
 
-    return { item: item, selected: selected, itemLabel: itemLabel };
+    if (disabled) {
+      item.setAttribute("disabled", disabled);
+    }
+
+    return { item: item, selected: selected, disabled: disabled, itemLabel: itemLabel };
   }
 
   /**
@@ -496,8 +501,12 @@
 
   // On click on an item
   addListener(document, 'click', '.fsb-option', function (event) {
-    selectItem(event.target);
-    closeListBox(true);
+    if (_this.getAttribute("disabled")) {
+      event.preventDefault();
+    } else {
+      selectItem(event.target);
+      closeListBox(true);
+    }
   });
 
   // On key press on an item
@@ -555,7 +564,11 @@
 
   // On click outside the custom select box, close it
   addListener(document, 'click', function (event) {
-    closeListBox();
+    if (event.target.getAttribute("disabled")) {
+      event.preventDefault();
+    } else {
+      closeListBox();
+    }
   });
 
   // Expose the constructor to the global scope

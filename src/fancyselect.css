@@ -202,6 +202,11 @@ select[disabled] + .fsb-select .fsb-list {
   background-color: var(--fsb-hover-background);
 }
 
+.fsb-option[disabled] {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
 .fsb-resize {
   display: block;
   height: 0;

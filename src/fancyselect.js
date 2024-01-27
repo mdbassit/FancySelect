@@ -206,6 +206,7 @@
   function getItemFromOption(option, renderer) {
     const item = document.createElement('span');
     const selected = option.selected;
+    var disabled = option.disabled;
     const itemLabel = getItemLabel(option, renderer);
 
     item.className = 'fsb-option';
@@ -214,7 +215,11 @@
     item.setAttribute('tabindex', '-1');
     item.setAttribute('aria-selected', selected);
 
-    return { item, selected, itemLabel };
+    if (disabled) {
+      item.setAttribute("disabled", disabled);
+    }
+
+    return { item, selected, disabled, itemLabel };
   }
 
   /**
@@ -496,8 +501,12 @@
 
   // On click on an item
   addListener(document, 'click', '.fsb-option', event => {
-    selectItem(event.target);
-    closeListBox(true);
+    if (this.getAttribute("disabled")) {
+      event.preventDefault();
+    } else {
+      selectItem(event.target);
+      closeListBox(true);
+    }
   });
 
   // On key press on an item
@@ -555,7 +564,11 @@
 
   // On click outside the custom select box, close it
   addListener(document, 'click', event => {
-    closeListBox();
+    if (event.target.getAttribute("disabled")) {
+      event.preventDefault();
+    } else {
+      closeListBox();
+    }
   });
 
   // Expose the constructor to the global scope
