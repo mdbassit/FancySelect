@@ -191,6 +191,12 @@ npm run build
 ```
 The built version will be in the `dist` directory in both minified and full copies.
 
+## Contributing
+
+If you find a bug or would like to implement a missing feature, please create an issue first before submitting a pull request (PR).
+
+When submitting a PR, please do not include the changes to the `dist` directory in your commits.
+
 ## Credit
 
 While this implementation may be different, most of the specifications were inspired by:
