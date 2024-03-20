@@ -98,7 +98,7 @@
     if (list.firstElementChild) {
       const span = document.createElement('span');
 
-      span.setAttribute('style', `width: ${list.firstElementChild.offsetWidth}px;`);
+      span.style.width = `${list.firstElementChild.offsetWidth}px`;
       widthAdjuster.className = 'fsb-resize'
       widthAdjuster.appendChild(span);
     }
@@ -152,7 +152,7 @@
 
     // Force the select box to take the width of the longest item by default
     if (list.firstElementChild) {
-      widthAdjuster.firstElementChild.setAttribute('style', `width: ${list.firstElementChild.offsetWidth}px;`);
+      widthAdjuster.firstElementChild.style.width = `${list.firstElementChild.offsetWidth}px`;
     }
   }
 
