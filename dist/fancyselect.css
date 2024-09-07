@@ -18,6 +18,7 @@
   --fsb-list-background: var(--fsb-background);
   --fsb-hover-color: var(--fsb-color);
   --fsb-hover-background: #ddd;
+  --fsb-disabled-opacity: .3;
 }
 
 .fsb-original-select {
@@ -91,6 +92,7 @@ select[disabled] + .fsb-select {
   position: relative !important;
   width: 100% !important;
   height: 100% !important;
+  margin: 0 !important;
   padding: 8px 22px 8px 8px !important;
   padding: var(--fsb-padding) !important;
   padding-right: calc(var(--fsb-arrow-size) + var(--fsb-arrow-padding) + var(--fsb-padding-right)) !important;
@@ -196,10 +198,14 @@ select[disabled] + .fsb-select .fsb-list {
   overflow: hidden;
 }
 
-.fsb-option:focus {
+.fsb-option:not([aria-disabled="true"]):focus {
   outline: none;
   color: var(--fsb-hover-color);
   background-color: var(--fsb-hover-background);
+}
+
+.fsb-option[aria-disabled="true"] {
+  opacity: var(--fsb-disabled-opacity);
 }
 
 .fsb-resize {

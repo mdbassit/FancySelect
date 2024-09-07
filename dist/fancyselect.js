@@ -7,6 +7,7 @@
 (function (window, document, autoInitialize) {
 
   var currentElement = null;
+  var currentFocus = null;
   var searchString = '';
   var searchTimeout = null;
   var counter = 0;
@@ -53,7 +54,7 @@
     // List box button
     button.id = "fsb_" + index + "_button";
     button.className = 'fsb-button';
-    button.textContent = '&nbsp;';
+    button.innerHTML = '&nbsp;';
     button.setAttribute('type', 'button');
     button.setAttribute('aria-disabled', select.disabled);
     button.setAttribute('aria-haspopup', 'listbox');
@@ -214,6 +215,10 @@
     item.setAttribute('tabindex', '-1');
     item.setAttribute('aria-selected', selected);
 
+    if (option.disabled) {
+      item.setAttribute('aria-disabled', option.disabled);
+    }
+
     return { item: item, selected: selected, itemLabel: itemLabel };
   }
 
@@ -260,6 +265,7 @@
     button.setAttribute('aria-expanded', 'true');
     selectedItem.focus();
     currentElement = button;
+    currentFocus = selectedItem;
 
     // Position the list box on top of the button if there isn't enough space on the bottom
     if (rect.y + rect.height + list.offsetHeight > document.documentElement.clientHeight) {
@@ -287,6 +293,7 @@
     }
 
     currentElement = null;
+    currentFocus = null;
   }
 
   /**
@@ -403,6 +410,42 @@
   }
 
   /**
+   * Find and focus the closest active option.
+   * @param {object} option The starting option.
+   * @param {string} dir The direction of the lookup (next, prev).
+   */
+  function focusClosestActiveOption(option, dir) {
+    if (!option) {
+      return;
+    }
+
+    // Focus the starting option itself if it's active
+    if (!option.getAttribute('aria-disabled')) {
+      currentFocus = option;
+      return option.focus();
+    }
+
+    var options = Array.from(option.parentNode.children);
+    var index = options.indexOf(option);
+
+    if (dir === 'next') {
+      for (var i = index + 1, len = options.length; i < len; i++) {
+        if (!options[i].getAttribute('aria-disabled')) {
+          currentFocus = options[i];
+          return options[i].focus();
+        }
+      }
+    } else {
+      for (var _i = index - 1; _i >= 0; _i--) {
+        if (!options[_i].getAttribute('aria-disabled')) {
+          currentFocus = options[_i];
+          return options[_i].focus();
+        }
+      }
+    }
+  }
+
+  /**
    * Shortcut for addEventListener with delegation support.
    * @param {object} context The context to which the listener is attached.
    * @param {string} type Event type.
@@ -490,14 +533,22 @@
   // Use mousemove instead of mouseover to prevent accidental focus on the wrong item,
   // namely when the list box is opened with a keyboard shortcut, and the mouse arrow
   // just happens to be on an item.
-  addListener(document.documentElement, 'mousemove', '.fsb-option', function (event) {
+  addListener(document.documentElement, 'mousemove', '.fsb-option:not([aria-disabled="true"])', function (event) {
     event.target.focus();
+    currentFocus = event.target;
   });
 
   // On click on an item
   addListener(document, 'click', '.fsb-option', function (event) {
-    selectItem(event.target);
-    closeListBox(true);
+    var item = event.target;
+
+    if (!item.getAttribute('aria-disabled')) {
+      selectItem(item);
+      closeListBox(true);
+    } else {
+      event.stopImmediatePropagation();
+      currentFocus.focus();
+    }
   });
 
   // On key press on an item
@@ -509,21 +560,17 @@
     switch (event.key) {
       case 'ArrowUp':
       case 'ArrowLeft':
-        if (item.previousElementSibling) {
-          item.previousElementSibling.focus();
-        }
+        focusClosestActiveOption(item.previousElementSibling, 'prev');
         break;
       case 'ArrowDown':
       case 'ArrowRight':
-        if (item.nextElementSibling) {
-          item.nextElementSibling.focus();
-        }
+        focusClosestActiveOption(item.nextElementSibling, 'next');
         break;
       case 'Home':
-        list.firstElementChild.focus();
+        focusClosestActiveOption(list.firstElementChild, 'next');
         break;
       case 'End':
-        list.lastElementChild.focus();
+        focusClosestActiveOption(list.lastElementChild, 'prev');
         break;
       case 'PageUp':
       case 'PageDown':
