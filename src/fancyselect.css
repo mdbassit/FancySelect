@@ -18,6 +18,7 @@
   --fsb-list-background: var(--fsb-background);
   --fsb-hover-color: var(--fsb-color);
   --fsb-hover-background: #ddd;
+  --fsb-disabled-opacity: .3;
 }
 
 .fsb-original-select {
@@ -197,10 +198,14 @@ select[disabled] + .fsb-select .fsb-list {
   overflow: hidden;
 }
 
-.fsb-option:focus {
+.fsb-option:not([aria-disabled="true"]):focus {
   outline: none;
   color: var(--fsb-hover-color);
   background-color: var(--fsb-hover-background);
+}
+
+.fsb-option[aria-disabled="true"] {
+  opacity: var(--fsb-disabled-opacity);
 }
 
 .fsb-resize {
