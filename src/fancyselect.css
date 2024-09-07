@@ -91,6 +91,7 @@ select[disabled] + .fsb-select {
   position: relative !important;
   width: 100% !important;
   height: 100% !important;
+  margin: 0 !important;
   padding: 8px 22px 8px 8px !important;
   padding: var(--fsb-padding) !important;
   padding-right: calc(var(--fsb-arrow-size) + var(--fsb-arrow-padding) + var(--fsb-padding-right)) !important;
